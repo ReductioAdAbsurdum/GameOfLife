@@ -1,31 +1,21 @@
 package MoonBurn;
 
+
 public class Simulation
 {
-    int width;
-    int height;
+    public static final int ALIVE = 1;
+    public static final int DEAD = 0;
 
-    int[][] board;
+    public int width;
+    public int height;
+
+    public int[][] board;
 
     public Simulation(int width, int height)
     {
         this.width = width;
         this.height = height;
         this.board = new int[width][height];
-    }
-
-    public static void main(String[] args)
-    {
-        Simulation sim = new Simulation(5, 5);
-        sim.setAlive(1, 2);
-        sim.setAlive(2, 2);
-        sim.setAlive(3, 2);
-
-        sim.printBoard();
-        sim.step();
-        sim.printBoard();
-        sim.step();
-        sim.printBoard();
     }
 
     public void printBoard()
@@ -40,7 +30,7 @@ public class Simulation
             StringBuilder row = new StringBuilder("|");
             for (int x = 0; x < width; x++)
             {
-                if (this.board[x][y] == 0)
+                if (this.board[x][y] == DEAD)
                 {
                     row.append("O");
                 } else
@@ -65,13 +55,13 @@ public class Simulation
             {
                int aliveNeighbours = countAliveNeighbours(x,y);
 
-               if (this.board[x][y] == 1 && (aliveNeighbours == 2 || aliveNeighbours == 3))
+               if (this.board[x][y] == ALIVE && (aliveNeighbours == 2 || aliveNeighbours == 3))
                {
-                   newBoard[x][y] = 1;
+                   newBoard[x][y] = ALIVE;
                }
-               if(this.board[x][y] == 0 && aliveNeighbours == 3)
+               if(this.board[x][y] == DEAD && aliveNeighbours == 3)
                {
-                   newBoard[x][y] = 1;
+                   newBoard[x][y] = ALIVE;
                }
             }
         }
@@ -81,23 +71,41 @@ public class Simulation
 
     public void setAlive(int x, int y)
     {
-        this.board[x][y] = 1;
+        if (x >= width || x < 0)
+        {
+            return;
+        }
+        if (y >= height || y < 0)
+        {
+            return;
+        }
+
+        this.board[x][y] = ALIVE;
     }
 
     public void setADead(int x, int y)
     {
-        this.board[x][y] = 0;
+        if (x >= width || x < 0)
+        {
+            return;
+        }
+        if (y >= height || y < 0)
+        {
+            return;
+        }
+
+        this.board[x][y] = DEAD;
     }
 
     public int getCellValue(int x, int y)
     {
         if (x >= width || x < 0)
         {
-            return 0;
+            return DEAD;
         }
         if (y >= height || y < 0)
         {
-            return 0;
+            return DEAD;
         }
         return board[x][y];
     }
