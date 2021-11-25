@@ -155,4 +155,13 @@ public class Simulation
 
         return count;
     }
+
+    /**
+     * Clears the board.
+     */
+    public void clearBoard()
+    {
+        System.out.println("Clearing board");
+        board = new int[width][height];
+    }
 }

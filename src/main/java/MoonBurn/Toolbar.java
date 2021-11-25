@@ -17,12 +17,26 @@ public class Toolbar extends ToolBar
 
         Button erase = new Button("Erase");
         erase.setOnAction(this::handleEraseButton);
+        
+        Button clear = new Button("Clear");
+        clear.setOnAction(this::handleClearButton);
 
         Button step = new Button("Step");
         step.setOnAction(this::handleStepButton);
+        
 
+        this.getItems().addAll(draw,erase,clear,step);
+    }
 
-        this.getItems().addAll(draw,erase,step);
+    /**
+     * Handles clear button press event.
+     */
+    private void handleClearButton(ActionEvent actionEvent)
+    {
+        mainView.setApplicationState(MainView.EDITING);
+
+        mainView.getSimulation().clearBoard();
+        mainView.draw();
     }
 
     /**
@@ -30,6 +44,8 @@ public class Toolbar extends ToolBar
      */
     private void handleStepButton(ActionEvent actionEvent)
     {
+        mainView.setApplicationState(MainView.SIMULATING);
+
         mainView.getSimulation().step();
         mainView.draw();
     }
@@ -40,6 +56,8 @@ public class Toolbar extends ToolBar
      */
     private void handleEraseButton(ActionEvent actionEvent)
     {
+        mainView.setApplicationState(MainView.EDITING);
+
         mainView.setDrawMode(Simulation.DEAD);
     }
 
@@ -49,6 +67,8 @@ public class Toolbar extends ToolBar
      */
     private void handleDrawButton(ActionEvent actionEvent)
     {
+        mainView.setApplicationState(MainView.EDITING);
+
         mainView.setDrawMode(Simulation.ALIVE);
     }
 }

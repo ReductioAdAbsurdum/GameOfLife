@@ -9,8 +9,13 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
+import java.util.IllegalFormatCodePointException;
+
 public class MainView extends VBox
 {
+    public static final int EDITING = 0;
+    public static final int SIMULATING = 1;
+
     private final Color canvasBackgroundColor = new Color(0.9,0.9,0.9,1.0);
     private final Color gridlinesColor = new Color(0,0,0,1.0);
     private final Color aliveCellColor = new Color(0.5,0.5,0.5,1.0);
@@ -27,6 +32,8 @@ public class MainView extends VBox
 
     private double cellWidth;
     private double cellHeight;
+
+    private int applicationState = EDITING;
 
     public MainView(int canvasWidth, int canvasHeight, int simulationWidth, int simulationHeight)
     {
@@ -145,5 +152,19 @@ public class MainView extends VBox
     public void setDrawMode(int drawMode)
     {
         this.drawMode=drawMode;
+    }
+
+    /**
+     * Sets application state to given one.
+     * @param applicationState given application state
+     */
+    public void setApplicationState(int applicationState)
+    {
+        if(this.applicationState==applicationState)
+        {
+            return;
+        }
+
+        this.applicationState = applicationState;
     }
 }
