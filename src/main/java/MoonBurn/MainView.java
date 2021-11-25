@@ -3,7 +3,6 @@ package MoonBurn;
 import javafx.event.ActionEvent;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -12,16 +11,11 @@ import javafx.scene.paint.Color;
 
 public class MainView extends VBox
 {
-    private final int DRAW = 1;
-    private final int ERASE = 0;
-
     private final Color canvasBackgroundColor = new Color(0.9,0.9,0.9,1.0);
     private final Color gridlinesColor = new Color(0,0,0,1.0);
     private final Color aliveCellColor = new Color(0.5,0.5,0.5,1.0);
 
-    private int drawMode = DRAW;
-
-    private Button stepButton;
+    private int drawMode = Simulation.ALIVE;
 
     private Canvas canvas;
     private int canvasHeight;
@@ -48,13 +42,12 @@ public class MainView extends VBox
         cellWidth = (double)canvasWidth / (double)simulationWidth;
         cellHeight = (double)canvasHeight / (double)simulationHeight;
 
-        stepButton = new Button("step");
-        stepButton.setOnAction(this::handleStepButtonPressed);
-
         canvas = new Canvas(canvasWidth, canvasHeight);
         canvas.setOnMousePressed(this::handleDraw);
         canvas.setOnMouseDragged(this::handleDraw);
-        getChildren().addAll(this.stepButton,this.canvas);
+
+        Toolbar toolbar = new Toolbar(this);
+        getChildren().addAll(toolbar,canvas);
     }
 
     /**
@@ -66,25 +59,15 @@ public class MainView extends VBox
         switch (key)
         {
             case D:
-                drawMode = DRAW;
-                System.out.println("Draw mode set to DRAW");
+                drawMode = Simulation.ALIVE;
+                System.out.println("Draw mode set to ALIVE");
             break;
 
             case E:
-                drawMode = ERASE;
+                drawMode = Simulation.DEAD;
                 System.out.println("Draw mode set to ERASE");
             break;
         }
-    }
-
-    /**
-     * Handles step button press event.
-     */
-    private void handleStepButtonPressed(ActionEvent actionEvent)
-    {
-        simulation.step();
-        System.out.println("Step button pressed");
-        draw();
     }
 
     /**
@@ -101,11 +84,11 @@ public class MainView extends VBox
         String logMessage = String.format("Canvas: MouseX: %d | %d \n        MouseY: %d | %d",mouseX,x,mouseY,y);
         System.out.println(logMessage);
 
-        if (drawMode == DRAW)
+        if (drawMode == Simulation.ALIVE)
         {
             simulation.setAlive(x,y);
         }
-        if (drawMode == ERASE)
+        if (drawMode == Simulation.DEAD)
         {
             simulation.setADead(x,y);
         }
@@ -144,5 +127,23 @@ public class MainView extends VBox
         {
             graphCont.strokeLine(0,y*cellHeight, canvasWidth,y*cellHeight);
         }
+    }
+
+    /**
+     * Return the simulation.
+     * @return Simulation
+     */
+    public Simulation getSimulation()
+    {
+        return simulation;
+    }
+
+    /**
+     * Sets draw mode to given one.
+     * @param drawMode given mode
+     */
+    public void setDrawMode(int drawMode)
+    {
+        this.drawMode=drawMode;
     }
 }

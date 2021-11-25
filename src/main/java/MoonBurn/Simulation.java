@@ -18,6 +18,9 @@ public class Simulation
         this.board = new int[width][height];
     }
 
+    /**
+     * Prints the board to the console.
+     */
     public void printBoard()
     {
         StringBuilder line = new StringBuilder();
@@ -45,6 +48,9 @@ public class Simulation
         System.out.println(line);
     }
 
+    /**
+     * Steps simulation to the next state.
+     */
     public void step()
     {
         int[][] newBoard = new int[width][height];
@@ -69,6 +75,11 @@ public class Simulation
         this.board = newBoard;
     }
 
+    /**
+     * Sets cell with given coordinates to ALIVE.
+     * @param x Horizontal coordinate
+     * @param y Vertical coordinate
+     */
     public void setAlive(int x, int y)
     {
         if (x >= width || x < 0)
@@ -83,6 +94,11 @@ public class Simulation
         this.board[x][y] = ALIVE;
     }
 
+    /**
+     * Sets cell with given coordinates to DEAD.
+     * @param x Horizontal coordinate
+     * @param y Vertical coordinate
+     */
     public void setADead(int x, int y)
     {
         if (x >= width || x < 0)
@@ -97,6 +113,12 @@ public class Simulation
         this.board[x][y] = DEAD;
     }
 
+    /**
+     * Returns the value of the cell with given coordinates.
+     * Returns DEAD state if invalid coordinates are passed.
+     * @param x Horizontal coordinate
+     * @param y Vertical coordinate
+     */
     public int getCellValue(int x, int y)
     {
         if (x >= width || x < 0)
@@ -110,6 +132,11 @@ public class Simulation
         return board[x][y];
     }
 
+    /**
+     * Returns the number of the ALIVE neighbours for the cell with given coordinates.
+     * @param x Horizontal coordinate
+     * @param y Vertical coordinate
+     */
     public int countAliveNeighbours(int x, int y)
     {
         int count = 0;
