@@ -33,6 +33,8 @@ public class MainView extends VBox
     private double cellWidth;
     private double cellHeight;
 
+    private Simulator simulator;
+
     private int applicationState = EDITING;
 
     public MainView(int canvasWidth, int canvasHeight, int simulationWidth, int simulationHeight)
@@ -45,6 +47,8 @@ public class MainView extends VBox
         this.simulationWidth = simulationWidth;
         this.simulationHeight = simulationHeight;
         simulation = new Simulation(simulationWidth, simulationHeight);
+
+        this.simulator =  new Simulator(this);
 
         cellWidth = (double)canvasWidth / (double)simulationWidth;
         cellHeight = (double)canvasHeight / (double)simulationHeight;
@@ -166,5 +170,10 @@ public class MainView extends VBox
         }
 
         this.applicationState = applicationState;
+    }
+
+    public Simulator getSimulator()
+    {
+        return simulator;
     }
 }

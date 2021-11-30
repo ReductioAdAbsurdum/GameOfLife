@@ -23,9 +23,26 @@ public class Toolbar extends ToolBar
 
         Button step = new Button("Step");
         step.setOnAction(this::handleStepButton);
-        
 
-        this.getItems().addAll(draw,erase,clear,step);
+        Button start = new Button("Start");
+        start.setOnAction(this::handleStartButton);
+
+        Button stop = new Button("Stop");
+        stop.setOnAction(this::handleStopButton);
+
+        this.getItems().addAll(draw,erase,clear,step,start,stop);
+    }
+
+    private void handleStopButton(ActionEvent actionEvent)
+    {
+        mainView.getSimulator().stop();
+        mainView.setApplicationState(mainView.EDITING);
+    }
+
+    private void handleStartButton(ActionEvent actionEvent)
+    {
+        mainView.getSimulator().start();
+        mainView.setApplicationState(mainView.SIMULATING);
     }
 
     /**
