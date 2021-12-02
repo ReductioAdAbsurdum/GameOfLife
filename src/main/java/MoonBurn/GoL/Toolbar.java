@@ -1,7 +1,7 @@
 package MoonBurn.GoL;
 
-import MoonBurn.GoL.model.ApplicationState;
-import MoonBurn.GoL.model.CellState;
+import MoonBurn.GoL.model.enums.ApplicationState;
+import MoonBurn.GoL.model.enums.CellState;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;

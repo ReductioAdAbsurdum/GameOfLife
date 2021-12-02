@@ -1,4 +1,7 @@
-package MoonBurn.GoL.model;
+package MoonBurn.GoL.model.rules;
+
+import MoonBurn.GoL.model.board.IBoard;
+import MoonBurn.GoL.model.enums.CellState;
 
 public class ConwayRules implements IRules
 {

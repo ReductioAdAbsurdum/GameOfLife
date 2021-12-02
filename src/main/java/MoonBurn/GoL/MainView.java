@@ -1,9 +1,9 @@
 package MoonBurn.GoL;
 
-import MoonBurn.GoL.model.ApplicationState;
-import MoonBurn.GoL.model.CellState;
-import MoonBurn.GoL.model.ConwayRules;
-import MoonBurn.GoL.model.FiniteBoard;
+import MoonBurn.GoL.model.enums.ApplicationState;
+import MoonBurn.GoL.model.enums.CellState;
+import MoonBurn.GoL.model.rules.ConwayRules;
+import MoonBurn.GoL.model.board.FiniteBoard;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
@@ -25,8 +25,7 @@ public class MainView extends VBox
     private int canvasWidth;
 
     private Simulation simulation;
-    private int simulationWidth;
-    private int simulationHeight;
+
 
     private double cellWidth;
     private double cellHeight;
@@ -42,8 +41,6 @@ public class MainView extends VBox
         this.canvasHeight = canvasHeight;
         this.canvasWidth = canvasWidth;
 
-        this.simulationWidth = simulationWidth;
-        this.simulationHeight = simulationHeight;
         simulation = new Simulation(new FiniteBoard(simulationHeight,simulationWidth), new ConwayRules());
 
         this.simulator =  new Simulator(this);
@@ -62,6 +59,7 @@ public class MainView extends VBox
     /**
      * Handles keyboard key press event functionalities.
      */
+
     private void handleKeyPressed(KeyEvent keyEvent)
     {
         KeyCode key = keyEvent.getCode();
@@ -115,9 +113,9 @@ public class MainView extends VBox
         graphCont.fillRect(0,0, canvasWidth, canvasHeight);
 
         graphCont.setFill(aliveCellColor);
-        for (int x = 0; x < simulationWidth; x++)
+        for (int x = 0; x < simulation.getBoard().getWidth(); x++)
         {
-            for (int y = 0; y < simulationHeight; y++)
+            for (int y = 0; y < simulation.getBoard().getHeight(); y++)
             {
                 if(simulation.getBoard().getState(x,y) == CellState.ALIVE)
                 {
@@ -128,11 +126,11 @@ public class MainView extends VBox
 
         graphCont.setFill(gridlinesColor);
         graphCont.setLineWidth(Math.min(cellHeight,cellWidth)/25);
-        for (int x = 0; x <= simulationWidth; x++)
+        for (int x = 0; x <= simulation.getBoard().getWidth(); x++)
         {
             graphCont.strokeLine(x * cellWidth,0,x * cellWidth, canvasHeight);
         }
-        for (int y = 0; y <= simulationHeight; y++)
+        for (int y = 0; y <= simulation.getBoard().getHeight(); y++)
         {
             graphCont.strokeLine(0,y*cellHeight, canvasWidth,y*cellHeight);
         }
@@ -170,6 +168,10 @@ public class MainView extends VBox
         this.applicationState = applicationState;
     }
 
+    /**
+     * Returns simulator that is currently in use.
+     * @return Simulator
+     */
     public Simulator getSimulator()
     {
         return simulator;

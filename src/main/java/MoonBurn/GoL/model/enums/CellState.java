@@ -1,4 +1,4 @@
-package MoonBurn.GoL.model;
+package MoonBurn.GoL.model.enums;
 
 public enum CellState
 {

@@ -1,5 +1,7 @@
 package MoonBurn.GoL;
 
+import MoonBurn.GoL.model.enums.ApplicationState;
+import MoonBurn.GoL.viewmodel.ApplicationViewModel;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;

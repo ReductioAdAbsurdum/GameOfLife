@@ -1,4 +1,6 @@
-package MoonBurn.GoL.model;
+package MoonBurn.GoL.model.board;
+
+import MoonBurn.GoL.model.enums.CellState;
 
 public class FiniteBoard implements IBoard
 {

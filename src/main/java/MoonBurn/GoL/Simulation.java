@@ -1,8 +1,8 @@
 package MoonBurn.GoL;
 
-import MoonBurn.GoL.model.CellState;
-import MoonBurn.GoL.model.IBoard;
-import MoonBurn.GoL.model.IRules;
+import MoonBurn.GoL.model.enums.CellState;
+import MoonBurn.GoL.model.board.IBoard;
+import MoonBurn.GoL.model.rules.IRules;
 
 public class Simulation
 {
