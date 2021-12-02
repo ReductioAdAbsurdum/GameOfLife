@@ -1,4 +1,4 @@
-package MoonBurn;
+package MoonBurn.GoL;
 
 import javafx.application.Application;
 import javafx.scene.Scene;

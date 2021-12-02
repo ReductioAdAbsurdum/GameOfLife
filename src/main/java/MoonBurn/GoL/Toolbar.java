@@ -1,5 +1,7 @@
-package MoonBurn;
+package MoonBurn.GoL;
 
+import MoonBurn.GoL.model.ApplicationState;
+import MoonBurn.GoL.model.CellState;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
@@ -36,13 +38,13 @@ public class Toolbar extends ToolBar
     private void handleStopButton(ActionEvent actionEvent)
     {
         mainView.getSimulator().stop();
-        mainView.setApplicationState(mainView.EDITING);
+        mainView.setApplicationState(ApplicationState.EDITING);
     }
 
     private void handleStartButton(ActionEvent actionEvent)
     {
         mainView.getSimulator().start();
-        mainView.setApplicationState(mainView.SIMULATING);
+        mainView.setApplicationState(ApplicationState.RUNNING);
     }
 
     /**
@@ -50,9 +52,10 @@ public class Toolbar extends ToolBar
      */
     private void handleClearButton(ActionEvent actionEvent)
     {
-        mainView.setApplicationState(MainView.EDITING);
+        mainView.getSimulator().stop();
+        mainView.setApplicationState(ApplicationState.EDITING);
 
-        mainView.getSimulation().clearBoard();
+        mainView.getSimulation().getBoard().clearBoard();
         mainView.draw();
     }
 
@@ -61,7 +64,7 @@ public class Toolbar extends ToolBar
      */
     private void handleStepButton(ActionEvent actionEvent)
     {
-        mainView.setApplicationState(MainView.SIMULATING);
+        mainView.setApplicationState(ApplicationState.RUNNING);
 
         mainView.getSimulation().step();
         mainView.draw();
@@ -73,9 +76,9 @@ public class Toolbar extends ToolBar
      */
     private void handleEraseButton(ActionEvent actionEvent)
     {
-        mainView.setApplicationState(MainView.EDITING);
+        mainView.setApplicationState(ApplicationState.EDITING);
 
-        mainView.setDrawMode(Simulation.DEAD);
+        mainView.setDrawMode(CellState.DEAD);
     }
 
     /**
@@ -84,8 +87,8 @@ public class Toolbar extends ToolBar
      */
     private void handleDrawButton(ActionEvent actionEvent)
     {
-        mainView.setApplicationState(MainView.EDITING);
+        mainView.setApplicationState(ApplicationState.EDITING);
 
-        mainView.setDrawMode(Simulation.ALIVE);
+        mainView.setDrawMode(CellState.ALIVE);
     }
 }

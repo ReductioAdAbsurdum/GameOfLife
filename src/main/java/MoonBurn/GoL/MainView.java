@@ -1,6 +1,9 @@
-package MoonBurn;
+package MoonBurn.GoL;
 
-import javafx.event.ActionEvent;
+import MoonBurn.GoL.model.ApplicationState;
+import MoonBurn.GoL.model.CellState;
+import MoonBurn.GoL.model.ConwayRules;
+import MoonBurn.GoL.model.FiniteBoard;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
@@ -9,18 +12,13 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
-import java.util.IllegalFormatCodePointException;
-
 public class MainView extends VBox
 {
-    public static final int EDITING = 0;
-    public static final int SIMULATING = 1;
-
     private final Color canvasBackgroundColor = new Color(0.9,0.9,0.9,1.0);
     private final Color gridlinesColor = new Color(0,0,0,1.0);
     private final Color aliveCellColor = new Color(0.5,0.5,0.5,1.0);
 
-    private int drawMode = Simulation.ALIVE;
+    private CellState drawMode = CellState.ALIVE;
 
     private Canvas canvas;
     private int canvasHeight;
@@ -35,7 +33,7 @@ public class MainView extends VBox
 
     private Simulator simulator;
 
-    private int applicationState = EDITING;
+    private ApplicationState applicationState = ApplicationState.EDITING;
 
     public MainView(int canvasWidth, int canvasHeight, int simulationWidth, int simulationHeight)
     {
@@ -46,7 +44,7 @@ public class MainView extends VBox
 
         this.simulationWidth = simulationWidth;
         this.simulationHeight = simulationHeight;
-        simulation = new Simulation(simulationWidth, simulationHeight);
+        simulation = new Simulation(new FiniteBoard(simulationHeight,simulationWidth), new ConwayRules());
 
         this.simulator =  new Simulator(this);
 
@@ -70,12 +68,12 @@ public class MainView extends VBox
         switch (key)
         {
             case D:
-                drawMode = Simulation.ALIVE;
+                drawMode = CellState.ALIVE;
                 System.out.println("Draw mode set to ALIVE");
             break;
 
             case E:
-                drawMode = Simulation.DEAD;
+                drawMode = CellState.DEAD;
                 System.out.println("Draw mode set to ERASE");
             break;
         }
@@ -95,13 +93,13 @@ public class MainView extends VBox
         String logMessage = String.format("Canvas: MouseX: %d | %d \n        MouseY: %d | %d",mouseX,x,mouseY,y);
         System.out.println(logMessage);
 
-        if (drawMode == Simulation.ALIVE)
+        if (drawMode == CellState.ALIVE)
         {
-            simulation.setAlive(x,y);
+            simulation.getBoard().setState(x,y,CellState.ALIVE);
         }
-        if (drawMode == Simulation.DEAD)
+        if (drawMode == CellState.DEAD)
         {
-            simulation.setADead(x,y);
+            simulation.getBoard().setState(x,y,CellState.DEAD);
         }
         draw();
     }
@@ -121,7 +119,7 @@ public class MainView extends VBox
         {
             for (int y = 0; y < simulationHeight; y++)
             {
-                if(simulation.getCellValue(x,y) == Simulation.ALIVE)
+                if(simulation.getBoard().getState(x,y) == CellState.ALIVE)
                 {
                     graphCont.fillRect(x * cellWidth, y * cellHeight, cellWidth , cellHeight);
                 }
@@ -130,11 +128,11 @@ public class MainView extends VBox
 
         graphCont.setFill(gridlinesColor);
         graphCont.setLineWidth(Math.min(cellHeight,cellWidth)/25);
-        for (int x = 0; x <= simulation.width; x++)
+        for (int x = 0; x <= simulationWidth; x++)
         {
             graphCont.strokeLine(x * cellWidth,0,x * cellWidth, canvasHeight);
         }
-        for (int y = 0; y <= simulation.height; y++)
+        for (int y = 0; y <= simulationHeight; y++)
         {
             graphCont.strokeLine(0,y*cellHeight, canvasWidth,y*cellHeight);
         }
@@ -153,7 +151,7 @@ public class MainView extends VBox
      * Sets draw mode to given one.
      * @param drawMode given mode
      */
-    public void setDrawMode(int drawMode)
+    public void setDrawMode(CellState drawMode)
     {
         this.drawMode=drawMode;
     }
@@ -162,7 +160,7 @@ public class MainView extends VBox
      * Sets application state to given one.
      * @param applicationState given application state
      */
-    public void setApplicationState(int applicationState)
+    public void setApplicationState(ApplicationState applicationState)
     {
         if(this.applicationState==applicationState)
         {

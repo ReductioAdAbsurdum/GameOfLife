@@ -1,4 +1,4 @@
 module MoonBurn {
     requires javafx.controls;
-    exports MoonBurn;
+    exports MoonBurn.GoL;
 }

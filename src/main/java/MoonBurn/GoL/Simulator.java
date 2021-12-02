@@ -1,4 +1,4 @@
-package MoonBurn;
+package MoonBurn.GoL;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
