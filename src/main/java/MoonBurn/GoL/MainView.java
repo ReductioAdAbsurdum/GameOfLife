@@ -4,6 +4,7 @@ import MoonBurn.GoL.model.enums.ApplicationState;
 import MoonBurn.GoL.model.enums.CellState;
 import MoonBurn.GoL.model.rules.ConwayRules;
 import MoonBurn.GoL.model.board.FiniteBoard;
+import MoonBurn.GoL.viewmodel.ApplicationViewModel;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
@@ -32,10 +33,13 @@ public class MainView extends VBox
 
     private Simulator simulator;
 
-    private ApplicationState applicationState = ApplicationState.EDITING;
+    private ApplicationViewModel appViewModel;
+    private boolean isDrawingEnabled = true;
 
-    public MainView(int canvasWidth, int canvasHeight, int simulationWidth, int simulationHeight)
+    public MainView(int canvasWidth, int canvasHeight, int simulationWidth, int simulationHeight, ApplicationViewModel appViewModel)
     {
+        this.appViewModel = appViewModel;
+        this.appViewModel.listenToAppState(this::onApplicationStateChanged);
         this.setOnKeyPressed(this::handleKeyPressed);
 
         this.canvasHeight = canvasHeight;
@@ -52,14 +56,13 @@ public class MainView extends VBox
         canvas.setOnMousePressed(this::handleDraw);
         canvas.setOnMouseDragged(this::handleDraw);
 
-        Toolbar toolbar = new Toolbar(this);
+        Toolbar toolbar = new Toolbar(this, appViewModel);
         getChildren().addAll(toolbar,canvas);
     }
 
     /**
      * Handles keyboard key press event functionalities.
      */
-
     private void handleKeyPressed(KeyEvent keyEvent)
     {
         KeyCode key = keyEvent.getCode();
@@ -82,6 +85,11 @@ public class MainView extends VBox
      */
     private void handleDraw(MouseEvent mouseEvent)
     {
+        if(isDrawingEnabled == false)
+        {
+            return;
+        }
+
         int mouseX = (int) mouseEvent.getX();
         int mouseY = (int) mouseEvent.getY();
 
@@ -100,6 +108,23 @@ public class MainView extends VBox
             simulation.getBoard().setState(x,y,CellState.DEAD);
         }
         draw();
+    }
+
+
+    /**
+     * Method is called when application state change is broadcast.
+     * @param state
+     */
+    private void onApplicationStateChanged(ApplicationState state)
+    {
+        if(state == ApplicationState.EDITING)
+        {
+            isDrawingEnabled = true;
+        }
+        else
+        {
+            isDrawingEnabled = false;
+        }
     }
 
     /**
@@ -155,20 +180,6 @@ public class MainView extends VBox
     }
 
     /**
-     * Sets application state to given one.
-     * @param applicationState given application state
-     */
-    public void setApplicationState(ApplicationState applicationState)
-    {
-        if(this.applicationState==applicationState)
-        {
-            return;
-        }
-
-        this.applicationState = applicationState;
-    }
-
-    /**
      * Returns simulator that is currently in use.
      * @return Simulator
      */
@@ -176,4 +187,5 @@ public class MainView extends VBox
     {
         return simulator;
     }
+
 }

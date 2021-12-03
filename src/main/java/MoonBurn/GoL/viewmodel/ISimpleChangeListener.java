@@ -1,6 +1,6 @@
 package MoonBurn.GoL.viewmodel;
 
-public interface ISimpleChangeListener
+public interface ISimpleChangeListener<V>
 {
-    void valueChanged();
+    void valueChanged(V value);
 }

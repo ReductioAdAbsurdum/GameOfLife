@@ -12,7 +12,7 @@ public class App extends Application
     @Override
     public void start(Stage stage)
     {
-        MainView mainView = new MainView(800, 800,20,20);
+        MainView mainView = new MainView(800, 800,20,20, new ApplicationViewModel(ApplicationState.EDITING));
         Scene scene = new Scene(mainView);
         stage.setScene(scene);
         stage.show();

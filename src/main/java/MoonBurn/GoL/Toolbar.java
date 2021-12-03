@@ -2,6 +2,7 @@ package MoonBurn.GoL;
 
 import MoonBurn.GoL.model.enums.ApplicationState;
 import MoonBurn.GoL.model.enums.CellState;
+import MoonBurn.GoL.viewmodel.ApplicationViewModel;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
@@ -9,10 +10,12 @@ import javafx.scene.control.ToolBar;
 public class Toolbar extends ToolBar
 {
     private MainView mainView;
+    private ApplicationViewModel applicationViewModel;
 
-    public Toolbar(MainView mainView)
+    public Toolbar(MainView mainView, ApplicationViewModel applicationViewModel)
     {
         this.mainView = mainView;
+        this.applicationViewModel = applicationViewModel;
 
         Button draw = new Button("Draw");
         draw.setOnAction(this::handleDrawButton);
@@ -38,13 +41,13 @@ public class Toolbar extends ToolBar
     private void handleStopButton(ActionEvent actionEvent)
     {
         mainView.getSimulator().stop();
-        mainView.setApplicationState(ApplicationState.EDITING);
+        applicationViewModel.setCurrentState(ApplicationState.EDITING);
     }
 
     private void handleStartButton(ActionEvent actionEvent)
     {
         mainView.getSimulator().start();
-        mainView.setApplicationState(ApplicationState.RUNNING);
+        applicationViewModel.setCurrentState(ApplicationState.RUNNING);
     }
 
     /**
@@ -53,7 +56,7 @@ public class Toolbar extends ToolBar
     private void handleClearButton(ActionEvent actionEvent)
     {
         mainView.getSimulator().stop();
-        mainView.setApplicationState(ApplicationState.EDITING);
+        applicationViewModel.setCurrentState(ApplicationState.EDITING);
 
         mainView.getSimulation().getBoard().clearBoard();
         mainView.draw();
@@ -64,7 +67,7 @@ public class Toolbar extends ToolBar
      */
     private void handleStepButton(ActionEvent actionEvent)
     {
-        mainView.setApplicationState(ApplicationState.RUNNING);
+        applicationViewModel.setCurrentState(ApplicationState.RUNNING);
 
         mainView.getSimulation().step();
         mainView.draw();
@@ -76,7 +79,7 @@ public class Toolbar extends ToolBar
      */
     private void handleEraseButton(ActionEvent actionEvent)
     {
-        mainView.setApplicationState(ApplicationState.EDITING);
+        applicationViewModel.setCurrentState(ApplicationState.EDITING);
 
         mainView.setDrawMode(CellState.DEAD);
     }
@@ -87,7 +90,7 @@ public class Toolbar extends ToolBar
      */
     private void handleDrawButton(ActionEvent actionEvent)
     {
-        mainView.setApplicationState(ApplicationState.EDITING);
+        applicationViewModel.setCurrentState(ApplicationState.EDITING);
 
         mainView.setDrawMode(CellState.ALIVE);
     }
