@@ -32,7 +32,6 @@ public class MainView extends VBox
     private double cellHeight;
 
     private Simulator simulator;
-    private IBoard board;
 
     private ApplicationViewModel appViewModel;
     private BoardViewModel boardViewModel;
@@ -42,8 +41,6 @@ public class MainView extends VBox
 
     public MainView(int canvasWidth, int canvasHeight, IBoard board, ApplicationViewModel avm, BoardViewModel bvm)
     {
-        this.board = board;
-
         this.appViewModel = avm;
         this.appViewModel.listenToAppState(this::onApplicationStateChanged);
 
@@ -94,7 +91,7 @@ public class MainView extends VBox
      */
     private void onBoardChanged(IBoard board)
     {
-        draw();
+        draw(board);
     }
 
     /**
@@ -144,13 +141,13 @@ public class MainView extends VBox
         {
             simulation.getBoard().setState(x,y,CellState.DEAD);
         }
-        boardViewModel.setBoard(board);
+        boardViewModel.setBoard(simulation.getBoard());
     }
 
     /**
      * Draws current simulation state to the canvas.
      */
-    public void draw()
+    public void draw(IBoard board)
     {
         GraphicsContext graphCont = canvas.getGraphicsContext2D();
 
@@ -158,11 +155,11 @@ public class MainView extends VBox
         graphCont.fillRect(0,0, canvasWidth, canvasHeight);
 
         graphCont.setFill(aliveCellColor);
-        for (int x = 0; x < simulation.getBoard().getWidth(); x++)
+        for (int x = 0; x < board.getWidth(); x++)
         {
-            for (int y = 0; y < simulation.getBoard().getHeight(); y++)
+            for (int y = 0; y < board.getHeight(); y++)
             {
-                if(simulation.getBoard().getState(x,y) == CellState.ALIVE)
+                if(board.getState(x,y) == CellState.ALIVE)
                 {
                     graphCont.fillRect(x * cellWidth, y * cellHeight, cellWidth , cellHeight);
                 }
@@ -171,11 +168,11 @@ public class MainView extends VBox
 
         graphCont.setFill(gridlinesColor);
         graphCont.setLineWidth(Math.min(cellHeight,cellWidth)/25);
-        for (int x = 0; x <= simulation.getBoard().getWidth(); x++)
+        for (int x = 0; x <= board.getWidth(); x++)
         {
             graphCont.strokeLine(x * cellWidth,0,x * cellWidth, canvasHeight);
         }
-        for (int y = 0; y <= simulation.getBoard().getHeight(); y++)
+        for (int y = 0; y <= board.getHeight(); y++)
         {
             graphCont.strokeLine(0,y*cellHeight, canvasWidth,y*cellHeight);
         }

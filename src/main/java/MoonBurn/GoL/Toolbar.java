@@ -63,6 +63,8 @@ public class Toolbar extends ToolBar
 
         mainView.getSimulation().getBoard().clearBoard();
         boardViewModel.setBoard(mainView.getSimulation().getBoard());
+
+        mainView.setDrawMode(CellState.ALIVE);
     }
 
     /**
@@ -70,8 +72,6 @@ public class Toolbar extends ToolBar
      */
     private void handleStepButton(ActionEvent actionEvent)
     {
-        applicationViewModel.setCurrentState(ApplicationState.RUNNING);
-
         mainView.getSimulator().doStep();
     }
 
@@ -81,6 +81,7 @@ public class Toolbar extends ToolBar
      */
     private void handleEraseButton(ActionEvent actionEvent)
     {
+        mainView.getSimulator().stop();
         applicationViewModel.setCurrentState(ApplicationState.EDITING);
 
         mainView.setDrawMode(CellState.DEAD);
@@ -92,6 +93,7 @@ public class Toolbar extends ToolBar
      */
     private void handleDrawButton(ActionEvent actionEvent)
     {
+        mainView.getSimulator().stop();
         applicationViewModel.setCurrentState(ApplicationState.EDITING);
 
         mainView.setDrawMode(CellState.ALIVE);
