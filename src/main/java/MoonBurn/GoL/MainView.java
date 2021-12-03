@@ -47,7 +47,7 @@ public class MainView extends VBox
         this.boardViewModel = bvm;
         this.boardViewModel.addBoardListener((b) -> onBoardChanged(b));
 
-        this.setOnKeyPressed(this::handleKeyPressed);
+        this.setOnKeyPressed(this::onKeyPressed);
 
         this.canvasHeight = canvasHeight;
         this.canvasWidth = canvasWidth;
@@ -60,8 +60,8 @@ public class MainView extends VBox
         cellHeight = (double)canvasHeight / (double)board.getHeight();
 
         canvas = new Canvas(canvasWidth, canvasHeight);
-        canvas.setOnMousePressed(this::handleDraw);
-        canvas.setOnMouseDragged(this::handleDraw);
+        canvas.setOnMousePressed(this::onBoardEdit);
+        canvas.setOnMouseDragged(this::onBoardEdit);
 
         Toolbar toolbar = new Toolbar(this, avm, bvm);
         getChildren().addAll(toolbar,canvas);
@@ -97,7 +97,7 @@ public class MainView extends VBox
     /**
      * Handles keyboard key press event functionalities.
      */
-    private void handleKeyPressed(KeyEvent keyEvent)
+    private void onKeyPressed(KeyEvent keyEvent)
     {
         KeyCode key = keyEvent.getCode();
         switch (key)
@@ -117,7 +117,7 @@ public class MainView extends VBox
     /**
      * Handles mouse click and mouse drag events.
      */
-    private void handleDraw(MouseEvent mouseEvent)
+    private void onBoardEdit(MouseEvent mouseEvent)
     {
         if(isDrawingEnabled == false)
         {
@@ -130,8 +130,11 @@ public class MainView extends VBox
         int x = (int) (mouseX / cellWidth);
         int y = (int) (mouseY / cellHeight);
 
-        String logMessage = String.format("Canvas: MouseX: %d | %d \n        MouseY: %d | %d",mouseX,x,mouseY,y);
-        System.out.println(logMessage);
+        //Guard logic if there is no change
+        if(drawMode == simulation.getBoard().getState(x,y))
+        {
+            return;
+        }
 
         if (drawMode == CellState.ALIVE)
         {
@@ -142,6 +145,9 @@ public class MainView extends VBox
             simulation.getBoard().setState(x,y,CellState.DEAD);
         }
         boardViewModel.setBoard(simulation.getBoard());
+
+        String logMessage = String.format("Canvas: MouseX: %d | %d \n        MouseY: %d | %d",mouseX,x,mouseY,y);
+        System.out.println(logMessage);
     }
 
     /**
