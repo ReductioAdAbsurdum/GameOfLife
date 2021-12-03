@@ -15,7 +15,7 @@ public class BoardViewModel
        boardListeners = new LinkedList<ISimpleChangeListener<IBoard>>();
     }
 
-    public void listenToBoard(ISimpleChangeListener<IBoard> listener)
+    public void addBoardListener(ISimpleChangeListener<IBoard> listener)
     {
         boardListeners.add(listener);
     }

@@ -4,7 +4,6 @@ import MoonBurn.GoL.model.board.IBoard;
 import MoonBurn.GoL.model.enums.ApplicationState;
 import MoonBurn.GoL.model.enums.CellState;
 import MoonBurn.GoL.model.rules.ConwayRules;
-import MoonBurn.GoL.model.board.FiniteBoard;
 import MoonBurn.GoL.viewmodel.ApplicationViewModel;
 import MoonBurn.GoL.viewmodel.BoardViewModel;
 import javafx.scene.canvas.Canvas;
@@ -49,7 +48,7 @@ public class MainView extends VBox
         this.appViewModel.listenToAppState(this::onApplicationStateChanged);
 
         this.boardViewModel = bvm;
-        this.boardViewModel.listenToBoard(this::onBoardChanged);
+        this.boardViewModel.addBoardListener((b) -> onBoardChanged(b));
 
         this.setOnKeyPressed(this::handleKeyPressed);
 
