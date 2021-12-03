@@ -3,6 +3,7 @@ package MoonBurn.GoL;
 import MoonBurn.GoL.model.enums.ApplicationState;
 import MoonBurn.GoL.model.enums.CellState;
 import MoonBurn.GoL.viewmodel.ApplicationViewModel;
+import MoonBurn.GoL.viewmodel.BoardViewModel;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
@@ -11,11 +12,13 @@ public class Toolbar extends ToolBar
 {
     private MainView mainView;
     private ApplicationViewModel applicationViewModel;
+    private BoardViewModel boardViewModel;
 
-    public Toolbar(MainView mainView, ApplicationViewModel applicationViewModel)
+    public Toolbar(MainView mainView, ApplicationViewModel applicationViewModel, BoardViewModel boardViewModel)
     {
         this.mainView = mainView;
         this.applicationViewModel = applicationViewModel;
+        this.boardViewModel = boardViewModel;
 
         Button draw = new Button("Draw");
         draw.setOnAction(this::handleDrawButton);
@@ -59,7 +62,7 @@ public class Toolbar extends ToolBar
         applicationViewModel.setCurrentState(ApplicationState.EDITING);
 
         mainView.getSimulation().getBoard().clearBoard();
-        mainView.draw();
+        boardViewModel.setBoard(mainView.getSimulation().getBoard());
     }
 
     /**
@@ -69,8 +72,7 @@ public class Toolbar extends ToolBar
     {
         applicationViewModel.setCurrentState(ApplicationState.RUNNING);
 
-        mainView.getSimulation().step();
-        mainView.draw();
+        mainView.getSimulator().doStep();
     }
 
     /**

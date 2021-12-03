@@ -1,28 +1,29 @@
 package MoonBurn.GoL;
 
+import MoonBurn.GoL.viewmodel.BoardViewModel;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
 import javafx.util.Duration;
 
 public class Simulator
 {
     private Timeline timeline;
-    private MainView mainView;
     private Simulation simulation;
+    private BoardViewModel boardViewModel;
 
-    public Simulator(MainView mainView)
+    public Simulator(BoardViewModel boardViewModel, Simulation simulation)
     {
-        timeline = new Timeline(new KeyFrame(Duration.millis(200), this::doStep));
+        this.boardViewModel = boardViewModel;
+        this.simulation = simulation;
+
+        timeline = new Timeline(new KeyFrame(Duration.millis(200), actionEvent -> doStep()));
         timeline.setCycleCount(Timeline.INDEFINITE);
-        this.mainView = mainView;
-        simulation = mainView.getSimulation();
     }
 
-    private void doStep(ActionEvent actionEvent)
+    public void doStep()
     {
         simulation.step();
-        mainView.draw();
+        boardViewModel.setBoard(simulation.getBoard());
     }
 
     public void start()

@@ -1,10 +1,12 @@
 package MoonBurn.GoL;
 
+import MoonBurn.GoL.model.board.IBoard;
 import MoonBurn.GoL.model.enums.ApplicationState;
 import MoonBurn.GoL.model.enums.CellState;
 import MoonBurn.GoL.model.rules.ConwayRules;
 import MoonBurn.GoL.model.board.FiniteBoard;
 import MoonBurn.GoL.viewmodel.ApplicationViewModel;
+import MoonBurn.GoL.viewmodel.BoardViewModel;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
@@ -27,37 +29,73 @@ public class MainView extends VBox
 
     private Simulation simulation;
 
-
     private double cellWidth;
     private double cellHeight;
 
     private Simulator simulator;
+    private IBoard board;
 
     private ApplicationViewModel appViewModel;
+    private BoardViewModel boardViewModel;
+
+
     private boolean isDrawingEnabled = true;
 
-    public MainView(int canvasWidth, int canvasHeight, int simulationWidth, int simulationHeight, ApplicationViewModel appViewModel)
+    public MainView(int canvasWidth, int canvasHeight, IBoard board, ApplicationViewModel avm, BoardViewModel bvm)
     {
-        this.appViewModel = appViewModel;
+        this.board = board;
+
+        this.appViewModel = avm;
         this.appViewModel.listenToAppState(this::onApplicationStateChanged);
+
+        this.boardViewModel = bvm;
+        this.boardViewModel.listenToBoard(this::onBoardChanged);
+
         this.setOnKeyPressed(this::handleKeyPressed);
 
         this.canvasHeight = canvasHeight;
         this.canvasWidth = canvasWidth;
 
-        simulation = new Simulation(new FiniteBoard(simulationHeight,simulationWidth), new ConwayRules());
+        simulation = new Simulation(board, new ConwayRules());
 
-        this.simulator =  new Simulator(this);
+        this.simulator =  new Simulator(boardViewModel,simulation);
 
-        cellWidth = (double)canvasWidth / (double)simulationWidth;
-        cellHeight = (double)canvasHeight / (double)simulationHeight;
+        cellWidth = (double)canvasWidth / (double)board.getWidth();
+        cellHeight = (double)canvasHeight / (double)board.getHeight();
 
         canvas = new Canvas(canvasWidth, canvasHeight);
         canvas.setOnMousePressed(this::handleDraw);
         canvas.setOnMouseDragged(this::handleDraw);
 
-        Toolbar toolbar = new Toolbar(this, appViewModel);
+        Toolbar toolbar = new Toolbar(this, avm, bvm);
         getChildren().addAll(toolbar,canvas);
+    }
+
+
+
+    /**
+     * Method is called when application state change is broadcast.
+     * @param state
+     */
+    private void onApplicationStateChanged(ApplicationState state)
+    {
+        if(state == ApplicationState.EDITING)
+        {
+            isDrawingEnabled = true;
+        }
+        else
+        {
+            isDrawingEnabled = false;
+        }
+    }
+
+    /**
+     * Method is called when the board change is broadcast.
+     * @param board
+     */
+    private void onBoardChanged(IBoard board)
+    {
+        draw();
     }
 
     /**
@@ -107,24 +145,7 @@ public class MainView extends VBox
         {
             simulation.getBoard().setState(x,y,CellState.DEAD);
         }
-        draw();
-    }
-
-
-    /**
-     * Method is called when application state change is broadcast.
-     * @param state
-     */
-    private void onApplicationStateChanged(ApplicationState state)
-    {
-        if(state == ApplicationState.EDITING)
-        {
-            isDrawingEnabled = true;
-        }
-        else
-        {
-            isDrawingEnabled = false;
-        }
+        boardViewModel.setBoard(board);
     }
 
     /**
@@ -188,4 +209,12 @@ public class MainView extends VBox
         return simulator;
     }
 
+    /**
+     * Returns board view model.
+     * @return Simulator
+     */
+    public BoardViewModel getBoardViewModel()
+    {
+        return boardViewModel;
+    }
 }
