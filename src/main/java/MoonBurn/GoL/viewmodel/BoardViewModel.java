@@ -26,6 +26,16 @@ public class BoardViewModel
         notifyBoardListeners();
     }
 
+    public void notifyOfExternalChange()
+    {
+        notifyBoardListeners();
+    }
+
+    public IBoard getBoard()
+    {
+        return board;
+    }
+
     private void notifyBoardListeners()
     {
         for(ISimpleChangeListener<IBoard> bl : boardListeners)

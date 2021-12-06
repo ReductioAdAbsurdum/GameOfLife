@@ -20,7 +20,7 @@ public class ApplicationViewModel
      * Subscribe to listen for app state change
      * @param listener implementation of ISimpleChangeListener
      */
-    public void listenToAppState(ISimpleChangeListener<ApplicationState> listener)
+    public void addAppStateListener(ISimpleChangeListener<ApplicationState> listener)
     {
         appStateListeners.add(listener);
     }

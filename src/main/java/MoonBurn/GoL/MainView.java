@@ -42,7 +42,7 @@ public class MainView extends VBox
     public MainView(int canvasWidth, int canvasHeight, IBoard board, ApplicationViewModel avm, BoardViewModel bvm)
     {
         this.appViewModel = avm;
-        this.appViewModel.listenToAppState(this::onApplicationStateChanged);
+        this.appViewModel.addAppStateListener(this::onApplicationStateChanged);
 
         this.boardViewModel = bvm;
         this.boardViewModel.addBoardListener((b) -> onBoardChanged(b));
