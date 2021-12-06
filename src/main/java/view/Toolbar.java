@@ -1,27 +1,28 @@
-package MoonBurn.GoL;
+package view;
 
 import MoonBurn.GoL.model.enums.ApplicationState;
 import MoonBurn.GoL.model.enums.CellState;
 import MoonBurn.GoL.viewmodel.ApplicationViewModel;
 import MoonBurn.GoL.viewmodel.BoardViewModel;
 import MoonBurn.GoL.viewmodel.EditorViewModel;
+import MoonBurn.GoL.viewmodel.SimulatorViewModel;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
 
 public class Toolbar extends ToolBar
 {
-    private Shell shell;
     private ApplicationViewModel applicationViewModel;
     private BoardViewModel boardViewModel;
     private EditorViewModel editorViewModel;
+    private SimulatorViewModel simulatorViewModel;
 
-    public Toolbar(Shell shell, ApplicationViewModel avm, BoardViewModel bvm, EditorViewModel evm)
+    public Toolbar(ApplicationViewModel avm, BoardViewModel bvm, EditorViewModel evm, SimulatorViewModel svm)
     {
-        this.shell = shell;
         this.applicationViewModel = avm;
         this.boardViewModel = bvm;
         this.editorViewModel = evm;
+        this.simulatorViewModel = svm;
 
         Button draw = new Button("Draw");
         draw.setOnAction(this::handleDrawButton);
@@ -46,13 +47,13 @@ public class Toolbar extends ToolBar
 
     private void handleStopButton(ActionEvent actionEvent)
     {
-        shell.getSimulator().stop();
+        simulatorViewModel.stop();
         applicationViewModel.setCurrentState(ApplicationState.EDITING);
     }
 
     private void handleStartButton(ActionEvent actionEvent)
     {
-        shell.getSimulator().start();
+        simulatorViewModel.start();
         applicationViewModel.setCurrentState(ApplicationState.RUNNING);
     }
 
@@ -61,7 +62,7 @@ public class Toolbar extends ToolBar
      */
     private void handleClearButton(ActionEvent actionEvent)
     {
-        shell.getSimulator().stop();
+        simulatorViewModel.stop();
         applicationViewModel.setCurrentState(ApplicationState.EDITING);
 
         boardViewModel.getBoard().clearBoard();
@@ -75,16 +76,15 @@ public class Toolbar extends ToolBar
      */
     private void handleStepButton(ActionEvent actionEvent)
     {
-        shell.getSimulator().doStep();
+        simulatorViewModel.doStep();
     }
 
     /**
      * Handles erase button press event.
-     * @param actionEvent
      */
     private void handleEraseButton(ActionEvent actionEvent)
     {
-        shell.getSimulator().stop();
+        simulatorViewModel.stop();
         applicationViewModel.setCurrentState(ApplicationState.EDITING);
 
         editorViewModel.setDrawMode(CellState.DEAD);
@@ -92,11 +92,10 @@ public class Toolbar extends ToolBar
 
     /**
      * Handles draw button press event.
-     * @param actionEvent
      */
     private void handleDrawButton(ActionEvent actionEvent)
     {
-        shell.getSimulator().stop();
+        simulatorViewModel.stop();
         applicationViewModel.setCurrentState(ApplicationState.EDITING);
 
         editorViewModel.setDrawMode(CellState.ALIVE);

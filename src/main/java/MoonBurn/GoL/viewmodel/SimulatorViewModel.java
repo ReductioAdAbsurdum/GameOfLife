@@ -1,17 +1,18 @@
-package MoonBurn.GoL;
+package MoonBurn.GoL.viewmodel;
 
+import MoonBurn.GoL.Simulation;
 import MoonBurn.GoL.viewmodel.BoardViewModel;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 
-public class Simulator
+public class SimulatorViewModel
 {
     private Timeline timeline;
     private Simulation simulation;
     private BoardViewModel boardViewModel;
 
-    public Simulator(BoardViewModel boardViewModel, Simulation simulation)
+    public SimulatorViewModel(BoardViewModel boardViewModel, Simulation simulation)
     {
         this.boardViewModel = boardViewModel;
         this.simulation = simulation;

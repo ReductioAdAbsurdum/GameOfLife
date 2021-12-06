@@ -1,7 +1,9 @@
-package MoonBurn.GoL.viewmodel;
+package view;
 
 import MoonBurn.GoL.model.board.IBoard;
 import MoonBurn.GoL.model.enums.CellState;
+import MoonBurn.GoL.viewmodel.BoardViewModel;
+import MoonBurn.GoL.viewmodel.EditorViewModel;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
@@ -37,7 +39,7 @@ public class BoardView extends Canvas
 
     /**
      * Method is called when the board change is broadcast.
-     * @param board
+     * @param board board that is sent form BoarViewModel
      */
     private void onBoardChanged(IBoard board)
     {
