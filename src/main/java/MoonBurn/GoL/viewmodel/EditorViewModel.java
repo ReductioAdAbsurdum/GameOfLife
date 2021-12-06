@@ -11,12 +11,14 @@ public class EditorViewModel
     private CellState drawMode = CellState.ALIVE;
     private List<ISimpleChangeListener<CellState>> drawModeListeners;
     private BoardViewModel boardViewModel;
-
+    private ApplicationViewModel applicationViewModel;
     private boolean isDrawingEnabled = true;
 
-    public EditorViewModel(BoardViewModel boardViewModel)
+    public EditorViewModel(BoardViewModel bvm, ApplicationViewModel avm)
     {
-        this.boardViewModel = boardViewModel;
+        this.boardViewModel = bvm;
+        this.applicationViewModel = avm;
+        applicationViewModel.addAppStateListener(this::onAppStateChanged);
         drawModeListeners = new LinkedList<ISimpleChangeListener<CellState>>();
     }
 
@@ -67,6 +69,11 @@ public class EditorViewModel
 
     public void setDrawMode(CellState drawMode)
     {
+        //Guard logic, so we don't notify listeners if there is no change
+        if(this.drawMode == drawMode)
+        {
+            return;
+        }
         this.drawMode = drawMode;
         notifyDrawModeListeners();
     }

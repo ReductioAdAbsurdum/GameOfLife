@@ -4,6 +4,7 @@ import MoonBurn.GoL.model.enums.ApplicationState;
 import MoonBurn.GoL.model.enums.CellState;
 import MoonBurn.GoL.viewmodel.ApplicationViewModel;
 import MoonBurn.GoL.viewmodel.BoardViewModel;
+import MoonBurn.GoL.viewmodel.EditorViewModel;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
@@ -13,12 +14,14 @@ public class Toolbar extends ToolBar
     private MainView mainView;
     private ApplicationViewModel applicationViewModel;
     private BoardViewModel boardViewModel;
+    private EditorViewModel editorViewModel;
 
-    public Toolbar(MainView mainView, ApplicationViewModel applicationViewModel, BoardViewModel boardViewModel)
+    public Toolbar(MainView mainView, ApplicationViewModel avm, BoardViewModel bvm, EditorViewModel evm)
     {
         this.mainView = mainView;
-        this.applicationViewModel = applicationViewModel;
-        this.boardViewModel = boardViewModel;
+        this.applicationViewModel = avm;
+        this.boardViewModel = bvm;
+        this.editorViewModel = evm;
 
         Button draw = new Button("Draw");
         draw.setOnAction(this::handleDrawButton);
@@ -61,10 +64,10 @@ public class Toolbar extends ToolBar
         mainView.getSimulator().stop();
         applicationViewModel.setCurrentState(ApplicationState.EDITING);
 
-        mainView.getSimulation().getBoard().clearBoard();
-        boardViewModel.setBoard(mainView.getSimulation().getBoard());
+        boardViewModel.getBoard().clearBoard();
+        boardViewModel.notifyOfExternalChange();
 
-        mainView.setDrawMode(CellState.ALIVE);
+        editorViewModel.setDrawMode(CellState.ALIVE);
     }
 
     /**
@@ -84,7 +87,7 @@ public class Toolbar extends ToolBar
         mainView.getSimulator().stop();
         applicationViewModel.setCurrentState(ApplicationState.EDITING);
 
-        mainView.setDrawMode(CellState.DEAD);
+        editorViewModel.setDrawMode(CellState.DEAD);
     }
 
     /**
@@ -96,6 +99,6 @@ public class Toolbar extends ToolBar
         mainView.getSimulator().stop();
         applicationViewModel.setCurrentState(ApplicationState.EDITING);
 
-        mainView.setDrawMode(CellState.ALIVE);
+        editorViewModel.setDrawMode(CellState.ALIVE);
     }
 }

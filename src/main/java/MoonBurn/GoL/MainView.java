@@ -6,6 +6,7 @@ import MoonBurn.GoL.model.enums.CellState;
 import MoonBurn.GoL.model.rules.ConwayRules;
 import MoonBurn.GoL.viewmodel.ApplicationViewModel;
 import MoonBurn.GoL.viewmodel.BoardViewModel;
+import MoonBurn.GoL.viewmodel.EditorViewModel;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
@@ -20,8 +21,6 @@ public class MainView extends VBox
     private final Color gridlinesColor = new Color(0,0,0,1.0);
     private final Color aliveCellColor = new Color(0.5,0.5,0.5,1.0);
 
-    private CellState drawMode = CellState.ALIVE;
-
     private Canvas canvas;
     private int canvasHeight;
     private int canvasWidth;
@@ -33,19 +32,13 @@ public class MainView extends VBox
 
     private Simulator simulator;
 
-    private ApplicationViewModel appViewModel;
-    private BoardViewModel boardViewModel;
+    private EditorViewModel editorViewModel;
 
-
-    private boolean isDrawingEnabled = true;
-
-    public MainView(int canvasWidth, int canvasHeight, IBoard board, ApplicationViewModel avm, BoardViewModel bvm)
+    public MainView(int canvasWidth, int canvasHeight, IBoard board, ApplicationViewModel avm, BoardViewModel bvm, EditorViewModel evm)
     {
-        this.appViewModel = avm;
-        this.appViewModel.addAppStateListener(this::onApplicationStateChanged);
+        this.editorViewModel = evm;
 
-        this.boardViewModel = bvm;
-        this.boardViewModel.addBoardListener((b) -> onBoardChanged(b));
+        bvm.addBoardListener((b) -> onBoardChanged(b));
 
         this.setOnKeyPressed(this::onKeyPressed);
 
@@ -54,7 +47,7 @@ public class MainView extends VBox
 
         simulation = new Simulation(board, new ConwayRules());
 
-        this.simulator =  new Simulator(boardViewModel,simulation);
+        this.simulator =  new Simulator(bvm,simulation);
 
         cellWidth = (double)canvasWidth / (double)board.getWidth();
         cellHeight = (double)canvasHeight / (double)board.getHeight();
@@ -63,26 +56,8 @@ public class MainView extends VBox
         canvas.setOnMousePressed(this::onBoardEdit);
         canvas.setOnMouseDragged(this::onBoardEdit);
 
-        Toolbar toolbar = new Toolbar(this, avm, bvm);
+        Toolbar toolbar = new Toolbar(this, avm, bvm, evm);
         getChildren().addAll(toolbar,canvas);
-    }
-
-
-
-    /**
-     * Method is called when application state change is broadcast.
-     * @param state
-     */
-    private void onApplicationStateChanged(ApplicationState state)
-    {
-        if(state == ApplicationState.EDITING)
-        {
-            isDrawingEnabled = true;
-        }
-        else
-        {
-            isDrawingEnabled = false;
-        }
     }
 
     /**
@@ -103,12 +78,12 @@ public class MainView extends VBox
         switch (key)
         {
             case D:
-                drawMode = CellState.ALIVE;
+                editorViewModel.setDrawMode(CellState.ALIVE);
                 System.out.println("Draw mode set to ALIVE");
             break;
 
             case E:
-                drawMode = CellState.DEAD;
+                editorViewModel.setDrawMode(CellState.DEAD);
                 System.out.println("Draw mode set to ERASE");
             break;
         }
@@ -119,35 +94,13 @@ public class MainView extends VBox
      */
     private void onBoardEdit(MouseEvent mouseEvent)
     {
-        if(isDrawingEnabled == false)
-        {
-            return;
-        }
-
         int mouseX = (int) mouseEvent.getX();
         int mouseY = (int) mouseEvent.getY();
 
         int x = (int) (mouseX / cellWidth);
         int y = (int) (mouseY / cellHeight);
 
-        //Guard logic if there is no change
-        if(drawMode == simulation.getBoard().getState(x,y))
-        {
-            return;
-        }
-
-        if (drawMode == CellState.ALIVE)
-        {
-            simulation.getBoard().setState(x,y,CellState.ALIVE);
-        }
-        if (drawMode == CellState.DEAD)
-        {
-            simulation.getBoard().setState(x,y,CellState.DEAD);
-        }
-        boardViewModel.setBoard(simulation.getBoard());
-
-        String logMessage = String.format("Canvas: MouseX: %d | %d \n        MouseY: %d | %d",mouseX,x,mouseY,y);
-        System.out.println(logMessage);
+        editorViewModel.boardPressed(x,y);
     }
 
     /**
@@ -185,24 +138,6 @@ public class MainView extends VBox
     }
 
     /**
-     * Return the simulation.
-     * @return Simulation
-     */
-    public Simulation getSimulation()
-    {
-        return simulation;
-    }
-
-    /**
-     * Sets draw mode to given one.
-     * @param drawMode given mode
-     */
-    public void setDrawMode(CellState drawMode)
-    {
-        this.drawMode=drawMode;
-    }
-
-    /**
      * Returns simulator that is currently in use.
      * @return Simulator
      */
@@ -211,12 +146,4 @@ public class MainView extends VBox
         return simulator;
     }
 
-    /**
-     * Returns board view model.
-     * @return Simulator
-     */
-    public BoardViewModel getBoardViewModel()
-    {
-        return boardViewModel;
-    }
 }
