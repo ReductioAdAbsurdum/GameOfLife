@@ -4,10 +4,12 @@ import MoonBurn.GoL.model.board.FiniteBoard;
 import MoonBurn.GoL.model.board.IBoard;
 import MoonBurn.GoL.model.enums.ApplicationState;
 import MoonBurn.GoL.viewmodel.ApplicationViewModel;
+import MoonBurn.GoL.viewmodel.BoardView;
 import MoonBurn.GoL.viewmodel.BoardViewModel;
 import MoonBurn.GoL.viewmodel.EditorViewModel;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
 import javafx.stage.Stage;
 
 public class App extends Application
@@ -20,11 +22,12 @@ public class App extends Application
 
         ApplicationViewModel avm = new ApplicationViewModel(ApplicationState.EDITING);
         BoardViewModel bvm = new BoardViewModel();
+        bvm.setBoard(board);
         EditorViewModel evm = new EditorViewModel(bvm,avm);
+        BoardView boardCanvas = new BoardView(800,800,evm,bvm);
 
-
-        MainView mainView = new MainView(800, 800, board, avm, bvm, evm);
-        Scene scene = new Scene(mainView);
+        Shell shell = new Shell(800, 800, board, avm, bvm, evm, boardCanvas);
+        Scene scene = new Scene(shell);
         stage.setScene(scene);
         stage.show();
 

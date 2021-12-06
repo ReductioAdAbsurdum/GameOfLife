@@ -1,10 +1,10 @@
 package MoonBurn.GoL;
 
 import MoonBurn.GoL.model.board.IBoard;
-import MoonBurn.GoL.model.enums.ApplicationState;
 import MoonBurn.GoL.model.enums.CellState;
 import MoonBurn.GoL.model.rules.ConwayRules;
 import MoonBurn.GoL.viewmodel.ApplicationViewModel;
+import MoonBurn.GoL.viewmodel.BoardView;
 import MoonBurn.GoL.viewmodel.BoardViewModel;
 import MoonBurn.GoL.viewmodel.EditorViewModel;
 import javafx.scene.canvas.Canvas;
@@ -15,7 +15,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
-public class MainView extends VBox
+public class Shell extends VBox
 {
     private final Color canvasBackgroundColor = new Color(0.9,0.9,0.9,1.0);
     private final Color gridlinesColor = new Color(0,0,0,1.0);
@@ -34,7 +34,7 @@ public class MainView extends VBox
 
     private EditorViewModel editorViewModel;
 
-    public MainView(int canvasWidth, int canvasHeight, IBoard board, ApplicationViewModel avm, BoardViewModel bvm, EditorViewModel evm)
+    public Shell(int canvasWidth, int canvasHeight, IBoard board, ApplicationViewModel avm, BoardViewModel bvm, EditorViewModel evm, BoardView boardCanvas)
     {
         this.editorViewModel = evm;
 
@@ -57,7 +57,7 @@ public class MainView extends VBox
         canvas.setOnMouseDragged(this::onBoardEdit);
 
         Toolbar toolbar = new Toolbar(this, avm, bvm, evm);
-        getChildren().addAll(toolbar,canvas);
+        getChildren().addAll(toolbar,boardCanvas);
     }
 
     /**

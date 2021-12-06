@@ -11,14 +11,14 @@ import javafx.scene.control.ToolBar;
 
 public class Toolbar extends ToolBar
 {
-    private MainView mainView;
+    private Shell shell;
     private ApplicationViewModel applicationViewModel;
     private BoardViewModel boardViewModel;
     private EditorViewModel editorViewModel;
 
-    public Toolbar(MainView mainView, ApplicationViewModel avm, BoardViewModel bvm, EditorViewModel evm)
+    public Toolbar(Shell shell, ApplicationViewModel avm, BoardViewModel bvm, EditorViewModel evm)
     {
-        this.mainView = mainView;
+        this.shell = shell;
         this.applicationViewModel = avm;
         this.boardViewModel = bvm;
         this.editorViewModel = evm;
@@ -46,13 +46,13 @@ public class Toolbar extends ToolBar
 
     private void handleStopButton(ActionEvent actionEvent)
     {
-        mainView.getSimulator().stop();
+        shell.getSimulator().stop();
         applicationViewModel.setCurrentState(ApplicationState.EDITING);
     }
 
     private void handleStartButton(ActionEvent actionEvent)
     {
-        mainView.getSimulator().start();
+        shell.getSimulator().start();
         applicationViewModel.setCurrentState(ApplicationState.RUNNING);
     }
 
@@ -61,7 +61,7 @@ public class Toolbar extends ToolBar
      */
     private void handleClearButton(ActionEvent actionEvent)
     {
-        mainView.getSimulator().stop();
+        shell.getSimulator().stop();
         applicationViewModel.setCurrentState(ApplicationState.EDITING);
 
         boardViewModel.getBoard().clearBoard();
@@ -75,7 +75,7 @@ public class Toolbar extends ToolBar
      */
     private void handleStepButton(ActionEvent actionEvent)
     {
-        mainView.getSimulator().doStep();
+        shell.getSimulator().doStep();
     }
 
     /**
@@ -84,7 +84,7 @@ public class Toolbar extends ToolBar
      */
     private void handleEraseButton(ActionEvent actionEvent)
     {
-        mainView.getSimulator().stop();
+        shell.getSimulator().stop();
         applicationViewModel.setCurrentState(ApplicationState.EDITING);
 
         editorViewModel.setDrawMode(CellState.DEAD);
@@ -96,7 +96,7 @@ public class Toolbar extends ToolBar
      */
     private void handleDrawButton(ActionEvent actionEvent)
     {
-        mainView.getSimulator().stop();
+        shell.getSimulator().stop();
         applicationViewModel.setCurrentState(ApplicationState.EDITING);
 
         editorViewModel.setDrawMode(CellState.ALIVE);
