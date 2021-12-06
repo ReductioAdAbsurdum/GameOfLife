@@ -10,7 +10,7 @@ public class Shell extends VBox
 {
     private EditorViewModel editorViewModel;
 
-    public Shell(EditorViewModel editorViewModel, BoardView boardCanvas, Toolbar toolbar)
+    public Shell(EditorViewModel editorViewModel, BoardCanvasView boardCanvas, Toolbar toolbar)
     {
         this.editorViewModel = editorViewModel;
 

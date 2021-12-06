@@ -6,7 +6,7 @@ import MoonBurn.GoL.model.enums.ApplicationState;
 import MoonBurn.GoL.model.rules.ConwayRules;
 import MoonBurn.GoL.viewmodel.ApplicationViewModel;
 import MoonBurn.GoL.viewmodel.SimulatorViewModel;
-import view.BoardView;
+import view.BoardCanvasView;
 import MoonBurn.GoL.viewmodel.BoardViewModel;
 import MoonBurn.GoL.viewmodel.EditorViewModel;
 import javafx.application.Application;
@@ -31,7 +31,7 @@ public class App extends Application
         SimulatorViewModel svm = new SimulatorViewModel(bvm, simulation);
 
 
-        BoardView boardCanvas = new BoardView(800,800,evm,bvm);
+        BoardCanvasView boardCanvas = new BoardCanvasView(800,800,evm,bvm);
         Toolbar toolbar = new Toolbar(avm, bvm, evm, svm);
 
         Shell shell = new Shell(evm, boardCanvas, toolbar);

@@ -10,7 +10,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
 
-public class BoardView extends Canvas
+public class BoardCanvasView extends Canvas
 {
     private final Color backgroundColor = new Color(0.9,0.9,0.9,1.0);
     private final Color gridlinesColor = new Color(0,0,0,1.0);
@@ -22,7 +22,7 @@ public class BoardView extends Canvas
     private EditorViewModel editorViewModel;
     private BoardViewModel boardViewModel;
 
-    public BoardView(double width, double height, EditorViewModel evm, BoardViewModel bvm)
+    public BoardCanvasView(double width, double height, EditorViewModel evm, BoardViewModel bvm)
     {
         super(width, height);
 
