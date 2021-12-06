@@ -1,4 +1,4 @@
-package view;
+package MoonBurn.GoL.view;
 
 import MoonBurn.GoL.model.enums.CellState;
 import MoonBurn.GoL.viewmodel.EditorViewModel;

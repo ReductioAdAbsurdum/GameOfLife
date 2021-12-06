@@ -1,19 +1,20 @@
 package MoonBurn.GoL;
 
+import MoonBurn.GoL.model.Simulation;
 import MoonBurn.GoL.model.board.FiniteBoard;
 import MoonBurn.GoL.model.board.IBoard;
 import MoonBurn.GoL.model.enums.ApplicationState;
 import MoonBurn.GoL.model.rules.ConwayRules;
 import MoonBurn.GoL.viewmodel.ApplicationViewModel;
 import MoonBurn.GoL.viewmodel.SimulatorViewModel;
-import view.BoardCanvasView;
+import MoonBurn.GoL.view.BoardCanvasView;
 import MoonBurn.GoL.viewmodel.BoardViewModel;
 import MoonBurn.GoL.viewmodel.EditorViewModel;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import view.Shell;
-import view.Toolbar;
+import MoonBurn.GoL.view.Shell;
+import MoonBurn.GoL.view.Toolbar;
 
 public class App extends Application
 {

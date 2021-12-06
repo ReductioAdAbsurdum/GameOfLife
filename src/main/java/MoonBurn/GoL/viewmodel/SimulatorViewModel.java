@@ -1,7 +1,6 @@
 package MoonBurn.GoL.viewmodel;
 
-import MoonBurn.GoL.Simulation;
-import MoonBurn.GoL.viewmodel.BoardViewModel;
+import MoonBurn.GoL.model.Simulation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;

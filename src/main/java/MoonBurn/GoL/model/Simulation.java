@@ -1,4 +1,4 @@
-package MoonBurn.GoL;
+package MoonBurn.GoL.model;
 
 import MoonBurn.GoL.model.enums.CellState;
 import MoonBurn.GoL.model.board.IBoard;
