@@ -18,7 +18,7 @@ public class EditorViewModel
     {
         this.boardViewModel = bvm;
         this.applicationViewModel = avm;
-        applicationViewModel.addAppStateListener(this::onAppStateChanged);
+        applicationViewModel.applicationState.addListener(this::onAppStateChanged);
         drawModeListeners = new LinkedList<ISimpleChangeListener<CellState>>();
     }
 
@@ -42,20 +42,20 @@ public class EditorViewModel
         }
 
         //Guard logic if there is no change
-        if(drawMode == boardViewModel.getBoard().getState(x,y))
+        if(drawMode == boardViewModel.board.get().getState(x,y))
         {
             return;
         }
 
         if (drawMode == CellState.ALIVE)
         {
-            boardViewModel.getBoard().setState(x,y,CellState.ALIVE);
-            boardViewModel.notifyOfExternalChange();
+            boardViewModel.board.get().setState(x,y,CellState.ALIVE);
+            boardViewModel.board.notifyOfExternalChange();
         }
         if (drawMode == CellState.DEAD)
         {
-            boardViewModel.getBoard().setState(x,y,CellState.DEAD);
-            boardViewModel.notifyOfExternalChange();
+            boardViewModel.board.get().setState(x,y,CellState.DEAD);
+            boardViewModel.board.notifyOfExternalChange();
         }
 
         String logMessage = String.format("Canvas: %d | %d",x,y);

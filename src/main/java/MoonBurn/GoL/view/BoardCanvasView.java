@@ -28,10 +28,10 @@ public class BoardCanvasView extends Canvas
 
         this.editorViewModel = evm;
         this.boardViewModel = bvm;
-        boardViewModel.addBoardListener(this::onBoardChanged);
+        boardViewModel.board.addListener(this::onBoardChanged);
 
-        cellWidth = getWidth() / (double)boardViewModel.getBoard().getWidth();
-        cellHeight = getHeight() / (double)boardViewModel.getBoard().getHeight();
+        cellWidth = getWidth() / (double)boardViewModel.board.get().getWidth();
+        cellHeight = getHeight() / (double)boardViewModel.board.get().getHeight();
 
         this.setOnMousePressed(this::onBoardMouseEvent);
         this.setOnMouseDragged(this::onBoardMouseEvent);
@@ -71,11 +71,11 @@ public class BoardCanvasView extends Canvas
         graphCont.fillRect(0,0, getWidth(), getHeight());
 
         graphCont.setFill(aliveCellColor);
-        for (int x = 0; x < boardViewModel.getBoard().getWidth(); x++)
+        for (int x = 0; x < boardViewModel.board.get().getWidth(); x++)
         {
-            for (int y = 0; y < boardViewModel.getBoard().getHeight(); y++)
+            for (int y = 0; y < boardViewModel.board.get().getHeight(); y++)
             {
-                if(boardViewModel.getBoard().getState(x,y) == CellState.ALIVE)
+                if(boardViewModel.board.get().getState(x,y) == CellState.ALIVE)
                 {
                     graphCont.fillRect(x * cellWidth, y * cellHeight, cellWidth , cellHeight);
                 }
@@ -84,11 +84,11 @@ public class BoardCanvasView extends Canvas
 
         graphCont.setFill(gridlinesColor);
         graphCont.setLineWidth(Math.min(cellHeight,cellWidth)/25);
-        for (int x = 0; x <= boardViewModel.getBoard().getWidth(); x++)
+        for (int x = 0; x <= boardViewModel.board.get().getWidth(); x++)
         {
             graphCont.strokeLine(x * cellWidth,0,x * cellWidth, getHeight());
         }
-        for (int y = 0; y <= boardViewModel.getBoard().getHeight(); y++)
+        for (int y = 0; y <= boardViewModel.board.get().getHeight(); y++)
         {
             graphCont.strokeLine(0,y*cellHeight, getWidth(),y*cellHeight);
         }

@@ -1,6 +1,5 @@
 package MoonBurn.GoL.util;
 
-import MoonBurn.GoL.model.board.IBoard;
 import MoonBurn.GoL.viewmodel.ISimpleChangeListener;
 
 import java.util.LinkedList;
@@ -27,12 +26,12 @@ public class Property<T>
         listenerList.add(listener);
     }
 
-    public T getValue()
+    public T get()
     {
         return value;
     }
 
-    public void setValue(T newValue)
+    public void set(T newValue)
     {
         //Guard logic
         if(this.value.equals(newValue))

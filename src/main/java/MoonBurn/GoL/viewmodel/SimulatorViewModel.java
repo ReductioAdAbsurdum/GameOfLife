@@ -23,7 +23,7 @@ public class SimulatorViewModel
     public void doStep()
     {
         simulation.step();
-        boardViewModel.setBoard(simulation.getBoard());
+        boardViewModel.board.set(simulation.getBoard());
     }
 
     public void start()

@@ -48,13 +48,13 @@ public class Toolbar extends ToolBar
     private void handleStopButton(ActionEvent actionEvent)
     {
         simulatorViewModel.stop();
-        applicationViewModel.setCurrentState(ApplicationState.EDITING);
+        applicationViewModel.applicationState.set(ApplicationState.EDITING);
     }
 
     private void handleStartButton(ActionEvent actionEvent)
     {
         simulatorViewModel.start();
-        applicationViewModel.setCurrentState(ApplicationState.RUNNING);
+        applicationViewModel.applicationState.set(ApplicationState.RUNNING);
     }
 
     /**
@@ -63,10 +63,10 @@ public class Toolbar extends ToolBar
     private void handleClearButton(ActionEvent actionEvent)
     {
         simulatorViewModel.stop();
-        applicationViewModel.setCurrentState(ApplicationState.EDITING);
+        applicationViewModel.applicationState.set(ApplicationState.EDITING);
 
-        boardViewModel.getBoard().clearBoard();
-        boardViewModel.notifyOfExternalChange();
+        boardViewModel.board.get().clearBoard();
+        boardViewModel.board.notifyOfExternalChange();
 
         editorViewModel.setDrawMode(CellState.ALIVE);
     }
@@ -85,7 +85,7 @@ public class Toolbar extends ToolBar
     private void handleEraseButton(ActionEvent actionEvent)
     {
         simulatorViewModel.stop();
-        applicationViewModel.setCurrentState(ApplicationState.EDITING);
+        applicationViewModel.applicationState.set(ApplicationState.EDITING);
 
         editorViewModel.setDrawMode(CellState.DEAD);
     }
@@ -96,7 +96,7 @@ public class Toolbar extends ToolBar
     private void handleDrawButton(ActionEvent actionEvent)
     {
         simulatorViewModel.stop();
-        applicationViewModel.setCurrentState(ApplicationState.EDITING);
+        applicationViewModel.applicationState.set(ApplicationState.EDITING);
 
         editorViewModel.setDrawMode(CellState.ALIVE);
     }

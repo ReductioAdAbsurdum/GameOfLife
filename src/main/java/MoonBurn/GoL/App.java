@@ -26,8 +26,8 @@ public class App extends Application
         Simulation simulation =new Simulation(board,new ConwayRules());
 
         ApplicationViewModel avm = new ApplicationViewModel(ApplicationState.EDITING);
-        BoardViewModel bvm = new BoardViewModel();
-        bvm.setBoard(board);
+        BoardViewModel bvm = new BoardViewModel(board);
+
         EditorViewModel evm = new EditorViewModel(bvm,avm);
         SimulatorViewModel svm = new SimulatorViewModel(bvm, simulation);
 
@@ -40,7 +40,7 @@ public class App extends Application
         stage.setScene(scene);
         stage.show();
 
-        bvm.setBoard(board);
+        bvm.board.notifyOfExternalChange();
     }
 
     public static void main(String[] args)
