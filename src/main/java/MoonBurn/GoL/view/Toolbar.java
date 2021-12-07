@@ -2,27 +2,27 @@ package MoonBurn.GoL.view;
 
 import MoonBurn.GoL.model.enums.ApplicationState;
 import MoonBurn.GoL.model.enums.CellState;
-import MoonBurn.GoL.viewmodel.ApplicationViewModel;
-import MoonBurn.GoL.viewmodel.BoardViewModel;
-import MoonBurn.GoL.viewmodel.EditorViewModel;
-import MoonBurn.GoL.viewmodel.SimulatorViewModel;
+import MoonBurn.GoL.viewmodel.ApplicationVM;
+import MoonBurn.GoL.viewmodel.BoardVM;
+import MoonBurn.GoL.viewmodel.EditorVM;
+import MoonBurn.GoL.viewmodel.SimulatorVM;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
 
 public class Toolbar extends ToolBar
 {
-    private ApplicationViewModel applicationViewModel;
-    private BoardViewModel boardViewModel;
-    private EditorViewModel editorViewModel;
-    private SimulatorViewModel simulatorViewModel;
+    private ApplicationVM applicationVM;
+    private BoardVM boardVM;
+    private EditorVM editorVM;
+    private SimulatorVM simulatorVM;
 
-    public Toolbar(ApplicationViewModel avm, BoardViewModel bvm, EditorViewModel evm, SimulatorViewModel svm)
+    public Toolbar(ApplicationVM avm, BoardVM bvm, EditorVM evm, SimulatorVM svm)
     {
-        this.applicationViewModel = avm;
-        this.boardViewModel = bvm;
-        this.editorViewModel = evm;
-        this.simulatorViewModel = svm;
+        this.applicationVM = avm;
+        this.boardVM = bvm;
+        this.editorVM = evm;
+        this.simulatorVM = svm;
 
         Button draw = new Button("Draw");
         draw.setOnAction(this::handleDrawButton);
@@ -47,14 +47,14 @@ public class Toolbar extends ToolBar
 
     private void handleStopButton(ActionEvent actionEvent)
     {
-        simulatorViewModel.stop();
-        applicationViewModel.applicationState.set(ApplicationState.EDITING);
+        simulatorVM.stop();
+        applicationVM.getApplicationStateProp().setValue(ApplicationState.EDITING);
     }
 
     private void handleStartButton(ActionEvent actionEvent)
     {
-        simulatorViewModel.start();
-        applicationViewModel.applicationState.set(ApplicationState.RUNNING);
+        simulatorVM.start();
+        applicationVM.getApplicationStateProp().setValue(ApplicationState.RUNNING);
     }
 
     /**
@@ -62,13 +62,13 @@ public class Toolbar extends ToolBar
      */
     private void handleClearButton(ActionEvent actionEvent)
     {
-        simulatorViewModel.stop();
-        applicationViewModel.applicationState.set(ApplicationState.EDITING);
+        simulatorVM.stop();
+        applicationVM.getApplicationStateProp().setValue(ApplicationState.EDITING);
 
-        boardViewModel.board.get().clearBoard();
-        boardViewModel.board.notifyOfExternalChange();
+        boardVM.getBoardProp().getValue().clearBoard();
+        boardVM.getBoardProp().notifyOfExternalChange();
 
-        editorViewModel.setDrawMode(CellState.ALIVE);
+        editorVM.getDrawModeProp().setValue(CellState.ALIVE);
     }
 
     /**
@@ -76,7 +76,7 @@ public class Toolbar extends ToolBar
      */
     private void handleStepButton(ActionEvent actionEvent)
     {
-        simulatorViewModel.doStep();
+        simulatorVM.doStep();
     }
 
     /**
@@ -84,10 +84,10 @@ public class Toolbar extends ToolBar
      */
     private void handleEraseButton(ActionEvent actionEvent)
     {
-        simulatorViewModel.stop();
-        applicationViewModel.applicationState.set(ApplicationState.EDITING);
+        simulatorVM.stop();
+        applicationVM.getApplicationStateProp().setValue(ApplicationState.EDITING);
 
-        editorViewModel.setDrawMode(CellState.DEAD);
+        editorVM.getDrawModeProp().setValue(CellState.DEAD);
     }
 
     /**
@@ -95,9 +95,9 @@ public class Toolbar extends ToolBar
      */
     private void handleDrawButton(ActionEvent actionEvent)
     {
-        simulatorViewModel.stop();
-        applicationViewModel.applicationState.set(ApplicationState.EDITING);
+        simulatorVM.stop();
+        applicationVM.getApplicationStateProp().setValue(ApplicationState.EDITING);
 
-        editorViewModel.setDrawMode(CellState.ALIVE);
+        editorVM.getDrawModeProp().setValue(CellState.ALIVE);
     }
 }

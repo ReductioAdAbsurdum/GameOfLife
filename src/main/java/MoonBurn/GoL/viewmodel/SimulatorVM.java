@@ -5,15 +5,15 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 
-public class SimulatorViewModel
+public class SimulatorVM
 {
     private Timeline timeline;
     private Simulation simulation;
-    private BoardViewModel boardViewModel;
+    private BoardVM boardVM;
 
-    public SimulatorViewModel(BoardViewModel boardViewModel, Simulation simulation)
+    public SimulatorVM(BoardVM boardVM, Simulation simulation)
     {
-        this.boardViewModel = boardViewModel;
+        this.boardVM = boardVM;
         this.simulation = simulation;
 
         timeline = new Timeline(new KeyFrame(Duration.millis(200), actionEvent -> doStep()));
@@ -23,7 +23,8 @@ public class SimulatorViewModel
     public void doStep()
     {
         simulation.step();
-        boardViewModel.board.set(simulation.getBoard());
+        boardVM.getBoardProp().setValue(simulation.getBoard());
+
     }
 
     public void start()

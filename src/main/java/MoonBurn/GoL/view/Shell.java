@@ -1,18 +1,18 @@
 package MoonBurn.GoL.view;
 
 import MoonBurn.GoL.model.enums.CellState;
-import MoonBurn.GoL.viewmodel.EditorViewModel;
+import MoonBurn.GoL.viewmodel.EditorVM;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 
 public class Shell extends VBox
 {
-    private EditorViewModel editorViewModel;
+    private EditorVM editorVM;
 
-    public Shell(EditorViewModel editorViewModel, BoardCanvasView boardCanvas, Toolbar toolbar)
+    public Shell(EditorVM editorVM, Canvas boardCanvas, Toolbar toolbar)
     {
-        this.editorViewModel = editorViewModel;
+        this.editorVM = editorVM;
 
         this.setOnKeyPressed(this::onKeyPressed);
 
@@ -29,14 +29,14 @@ public class Shell extends VBox
         switch (key)
         {
             case D:
-                editorViewModel.setDrawMode(CellState.ALIVE);
-                System.out.println("Draw mode set to ALIVE");
-            break;
+                editorVM.getDrawModeProp().setValue(CellState.ALIVE);
+                System.out.println("Draw mode setValue to ALIVE");
+                break;
 
             case E:
-                editorViewModel.setDrawMode(CellState.DEAD);
-                System.out.println("Draw mode set to ERASE");
-            break;
+                editorVM.getDrawModeProp().setValue(CellState.DEAD);
+                System.out.println("Draw mode setValue to ERASE");
+                break;
         }
     }
 

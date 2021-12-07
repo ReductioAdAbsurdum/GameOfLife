@@ -26,15 +26,15 @@ public class Property<T>
         listenerList.add(listener);
     }
 
-    public T get()
+    public T getValue()
     {
         return value;
     }
 
-    public void set(T newValue)
+    public void setValue(T newValue)
     {
         //Guard logic
-        if(this.value.equals(newValue))
+        if(newValue.equals(value))
         {
             return;
         }
@@ -53,5 +53,10 @@ public class Property<T>
         {
             scl.valueChanged(value);
         }
+    }
+
+    public boolean isPresent()
+    {
+        return value != null;
     }
 }

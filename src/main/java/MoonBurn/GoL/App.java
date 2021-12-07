@@ -5,11 +5,11 @@ import MoonBurn.GoL.model.board.FiniteBoard;
 import MoonBurn.GoL.model.board.IBoard;
 import MoonBurn.GoL.model.enums.ApplicationState;
 import MoonBurn.GoL.model.rules.ConwayRules;
-import MoonBurn.GoL.viewmodel.ApplicationViewModel;
-import MoonBurn.GoL.viewmodel.SimulatorViewModel;
-import MoonBurn.GoL.view.BoardCanvasView;
-import MoonBurn.GoL.viewmodel.BoardViewModel;
-import MoonBurn.GoL.viewmodel.EditorViewModel;
+import MoonBurn.GoL.viewmodel.ApplicationVM;
+import MoonBurn.GoL.viewmodel.SimulatorVM;
+import MoonBurn.GoL.view.Canvas;
+import MoonBurn.GoL.viewmodel.BoardVM;
+import MoonBurn.GoL.viewmodel.EditorVM;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -25,14 +25,14 @@ public class App extends Application
         IBoard board = new FiniteBoard(40,20);
         Simulation simulation =new Simulation(board,new ConwayRules());
 
-        ApplicationViewModel avm = new ApplicationViewModel(ApplicationState.EDITING);
-        BoardViewModel bvm = new BoardViewModel(board);
+        ApplicationVM avm = new ApplicationVM(ApplicationState.EDITING);
+        BoardVM bvm = new BoardVM(board);
 
-        EditorViewModel evm = new EditorViewModel(bvm,avm);
-        SimulatorViewModel svm = new SimulatorViewModel(bvm, simulation);
+        EditorVM evm = new EditorVM(bvm,avm);
+        SimulatorVM svm = new SimulatorVM(bvm, simulation);
 
 
-        BoardCanvasView boardCanvas = new BoardCanvasView(800,400,evm,bvm);
+        Canvas boardCanvas = new Canvas(800,400,evm,bvm);
         Toolbar toolbar = new Toolbar(avm, bvm, evm, svm);
 
         Shell shell = new Shell(evm, boardCanvas, toolbar);
@@ -40,7 +40,7 @@ public class App extends Application
         stage.setScene(scene);
         stage.show();
 
-        bvm.board.notifyOfExternalChange();
+        bvm.getBoardProp().notifyOfExternalChange();
     }
 
     public static void main(String[] args)
