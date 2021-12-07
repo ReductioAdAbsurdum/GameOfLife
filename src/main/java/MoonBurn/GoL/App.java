@@ -22,7 +22,7 @@ public class App extends Application
     @Override
     public void start(Stage stage)
     {
-        IBoard board = new FiniteBoard(20,20);
+        IBoard board = new FiniteBoard(40,20);
         Simulation simulation =new Simulation(board,new ConwayRules());
 
         ApplicationViewModel avm = new ApplicationViewModel(ApplicationState.EDITING);
@@ -32,7 +32,7 @@ public class App extends Application
         SimulatorViewModel svm = new SimulatorViewModel(bvm, simulation);
 
 
-        BoardCanvasView boardCanvas = new BoardCanvasView(800,800,evm,bvm);
+        BoardCanvasView boardCanvas = new BoardCanvasView(800,400,evm,bvm);
         Toolbar toolbar = new Toolbar(avm, bvm, evm, svm);
 
         Shell shell = new Shell(evm, boardCanvas, toolbar);

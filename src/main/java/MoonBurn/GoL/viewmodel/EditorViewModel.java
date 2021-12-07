@@ -22,9 +22,21 @@ public class EditorViewModel
         drawModeListeners = new LinkedList<ISimpleChangeListener<CellState>>();
     }
 
+    private void onAppStateChanged(ApplicationState state)
+    {
+        if(state == ApplicationState.EDITING)
+        {
+            isDrawingEnabled = true;
+        }
+        else
+        {
+            isDrawingEnabled = false;
+        }
+    }
+
     public void boardPressed(int x, int y)
     {
-        if(isDrawingEnabled == false)
+        if(!isDrawingEnabled)
         {
             return;
         }
@@ -48,18 +60,6 @@ public class EditorViewModel
 
         String logMessage = String.format("Canvas: %d | %d",x,y);
         System.out.println(logMessage);
-    }
-
-    public void onAppStateChanged(ApplicationState state)
-    {
-        if(state == ApplicationState.EDITING)
-        {
-            isDrawingEnabled = true;
-        }
-        else
-        {
-            isDrawingEnabled = false;
-        }
     }
 
     public void addDrawModeListeners(ISimpleChangeListener listener)
