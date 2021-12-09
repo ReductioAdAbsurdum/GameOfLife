@@ -1,16 +1,16 @@
-package MoonBurn.GoL.viewmodel;
+package MoonBurn.GoL.logic;
 
 import MoonBurn.GoL.model.enums.ApplicationState;
 import MoonBurn.GoL.util.Property;
 import MoonBurn.GoL.util.event.classes.ApplicationStateEvent;
 
-public class ApplicationVM
+public class ApplicationStateManager
 {
     private Property<ApplicationState> applicationStateProp;
 
-    public ApplicationVM(ApplicationState initialState)
+    public ApplicationStateManager(ApplicationState initialState)
     {
-        applicationStateProp = new Property<ApplicationState>(initialState);
+        applicationStateProp = new Property<>(initialState);
     }
 
     public Property<ApplicationState> getApplicationStateProp()

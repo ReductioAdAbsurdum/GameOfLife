@@ -7,13 +7,14 @@ import MoonBurn.GoL.model.enums.ApplicationState;
 import MoonBurn.GoL.model.rules.ConwayRules;
 import MoonBurn.GoL.util.event.classes.ApplicationStateEvent;
 import MoonBurn.GoL.util.event.EventBus;
+import MoonBurn.GoL.util.event.classes.BoardPressEvent;
 import MoonBurn.GoL.util.event.classes.DrawModeEvent;
 import MoonBurn.GoL.util.event.classes.SimulatorEvent;
-import MoonBurn.GoL.viewmodel.ApplicationVM;
-import MoonBurn.GoL.viewmodel.SimulatorVM;
-import MoonBurn.GoL.view.Canvas;
+import MoonBurn.GoL.logic.ApplicationStateManager;
+import MoonBurn.GoL.logic.Simulator;
+import MoonBurn.GoL.view.BoardView;
 import MoonBurn.GoL.viewmodel.BoardVM;
-import MoonBurn.GoL.viewmodel.EditorVM;
+import MoonBurn.GoL.logic.Editor;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -31,24 +32,26 @@ public class App extends Application
         IBoard board = new FiniteBoard(40,20);
         Simulation simulation =new Simulation(board,new ConwayRules());
 
-        ApplicationVM avm = new ApplicationVM(ApplicationState.EDITING);
-        BoardVM bvm = new BoardVM(board);
-        EditorVM evm = new EditorVM(bvm,avm);
-        SimulatorVM svm = new SimulatorVM(bvm, simulation);
+        ApplicationStateManager applicationStateManager = new ApplicationStateManager(ApplicationState.EDITING);
+        BoardVM boardVM = new BoardVM(board);
+        Editor editor = new Editor(boardVM, applicationStateManager);
+        Simulator simulator = new Simulator(boardVM, simulation);
 
-        eventBus.addMapping(SimulatorEvent.class, svm::handleSimulatorEvent);
-        eventBus.addMapping(ApplicationStateEvent.class,avm::handleApplicationStateEvent);
-        eventBus.addMapping(DrawModeEvent.class, evm::handleDrawModeEvent);
+        eventBus.addMapping(SimulatorEvent.class, simulator::handleSimulatorEvent);
+        eventBus.addMapping(ApplicationStateEvent.class, applicationStateManager::handleApplicationStateEvent);
+        eventBus.addMapping(DrawModeEvent.class, editor::handleDrawModeEvent);
+        eventBus.addMapping(BoardPressEvent.class, editor::onBoardPressed);
 
-        Canvas boardCanvas = new Canvas(800,400,evm,bvm);
+        BoardView boardView = new BoardView(800,400, boardVM, eventBus);
+        eventBus.addMapping(DrawModeEvent.class, boardView::handleDrawModeEvent);
         Toolbar toolbar = new Toolbar(eventBus);
-        Shell shell = new Shell(eventBus, boardCanvas, toolbar);
+        Shell shell = new Shell(eventBus, boardView, toolbar);
 
         Scene scene = new Scene(shell);
         stage.setScene(scene);
         stage.show();
 
-        bvm.getBoardProp().notifyOfExternalChange();
+        boardVM.getBoardProp().notifyOfExternalChange();
     }
 
     public static void main(String[] args)

@@ -1,20 +1,19 @@
-package MoonBurn.GoL.viewmodel;
+package MoonBurn.GoL.logic;
 
 import MoonBurn.GoL.model.Simulation;
-import MoonBurn.GoL.model.enums.ApplicationState;
-import MoonBurn.GoL.model.enums.CellState;
 import MoonBurn.GoL.util.event.classes.SimulatorEvent;
+import MoonBurn.GoL.viewmodel.BoardVM;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 
-public class SimulatorVM
+public class Simulator
 {
     private Timeline timeline;
     private Simulation simulation;
     private BoardVM boardVM;
 
-    public SimulatorVM(BoardVM boardVM, Simulation simulation)
+    public Simulator(BoardVM boardVM, Simulation simulation)
     {
         this.boardVM = boardVM;
         this.simulation = simulation;

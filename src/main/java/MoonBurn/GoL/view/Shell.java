@@ -14,14 +14,14 @@ public class Shell extends VBox
 {
     public EventBus eventBus;
 
-    public Shell(EventBus eventBus, Canvas canvas, Toolbar toolbar)
+    public Shell(EventBus eventBus, BoardView boardView, Toolbar toolbar)
     {
         this.eventBus = eventBus;
 
         this.setOnKeyPressed(this::onKeyPressed);
 
 
-        getChildren().addAll(toolbar, canvas);
+        getChildren().addAll(toolbar, boardView);
     }
 
     /**
