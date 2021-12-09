@@ -54,16 +54,8 @@ public class EditorVM
             return;
         }
 
-        if (drawModeProp.getValue() == CellState.ALIVE)
-        {
-            boardVM.getBoardProp().getValue().setState(x,y,CellState.ALIVE);
-            boardVM.getBoardProp().notifyOfExternalChange();
-        }
-        if (drawModeProp.getValue() == CellState.DEAD)
-        {
-            boardVM.getBoardProp().getValue().setState(x,y,CellState.DEAD);
-            boardVM.getBoardProp().notifyOfExternalChange();
-        }
+        boardVM.getBoardProp().getValue().setState(x,y,drawModeProp.getValue());
+        boardVM.getBoardProp().notifyOfExternalChange();
 
         String logMessage = String.format("Canvas: %d | %d",x,y);
         System.out.println(logMessage);

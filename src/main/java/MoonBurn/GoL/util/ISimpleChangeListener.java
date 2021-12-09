@@ -1,4 +1,4 @@
-package MoonBurn.GoL.viewmodel;
+package MoonBurn.GoL.util;
 
 /*
 Functional Interfaces Can Be Implemented by a Lambda Expression.

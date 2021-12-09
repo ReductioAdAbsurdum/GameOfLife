@@ -1,7 +1,5 @@
 package MoonBurn.GoL.util;
 
-import MoonBurn.GoL.viewmodel.ISimpleChangeListener;
-
 import java.util.LinkedList;
 import java.util.List;
 
