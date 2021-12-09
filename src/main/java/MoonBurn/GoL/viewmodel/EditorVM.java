@@ -4,6 +4,7 @@ import MoonBurn.GoL.model.CellPosition;
 import MoonBurn.GoL.model.enums.ApplicationState;
 import MoonBurn.GoL.model.enums.CellState;
 import MoonBurn.GoL.util.Property;
+import MoonBurn.GoL.util.event.classes.DrawModeEvent;
 
 public class EditorVM
 {
@@ -19,6 +20,10 @@ public class EditorVM
         cursorPositionProp = new Property<CellPosition>();
         this.boardVM = bvm;
         avm.getApplicationStateProp().addListener(this::onAppStateChanged);
+    }
+    public void handleDrawModeEvent(DrawModeEvent event)
+    {
+        drawModeProp.setValue(event.getDrawMode());
     }
 
     public Property<CellState> getDrawModeProp()

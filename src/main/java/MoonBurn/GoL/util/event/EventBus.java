@@ -17,7 +17,7 @@ public class EventBus
         }
     }
 
-    public <T extends IEvent> void listenFor(Class<T> eventClass, IEventListener<T> listener)
+    public <T extends IEvent> void addMapping(Class<T> eventClass, IEventListener<T> listener)
     {
         if(!map.containsKey(eventClass))
         {

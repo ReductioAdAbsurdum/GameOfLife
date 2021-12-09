@@ -2,27 +2,21 @@ package MoonBurn.GoL.view;
 
 import MoonBurn.GoL.model.enums.ApplicationState;
 import MoonBurn.GoL.model.enums.CellState;
-import MoonBurn.GoL.viewmodel.ApplicationVM;
-import MoonBurn.GoL.viewmodel.BoardVM;
-import MoonBurn.GoL.viewmodel.EditorVM;
-import MoonBurn.GoL.viewmodel.SimulatorVM;
+import MoonBurn.GoL.util.event.EventBus;
+import MoonBurn.GoL.util.event.classes.ApplicationStateEvent;
+import MoonBurn.GoL.util.event.classes.DrawModeEvent;
+import MoonBurn.GoL.util.event.classes.SimulatorEvent;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
 
 public class Toolbar extends ToolBar
 {
-    private ApplicationVM applicationVM;
-    private BoardVM boardVM;
-    private EditorVM editorVM;
-    private SimulatorVM simulatorVM;
+    private EventBus eventBus;
 
-    public Toolbar(ApplicationVM avm, BoardVM bvm, EditorVM evm, SimulatorVM svm)
+    public Toolbar(EventBus eventBus)
     {
-        this.applicationVM = avm;
-        this.boardVM = bvm;
-        this.editorVM = evm;
-        this.simulatorVM = svm;
+        this.eventBus = eventBus;
 
         Button draw = new Button("Draw");
         draw.setOnAction(this::handleDrawButton);
@@ -47,14 +41,14 @@ public class Toolbar extends ToolBar
 
     private void handleStopButton(ActionEvent actionEvent)
     {
-        simulatorVM.stop();
-        applicationVM.getApplicationStateProp().setValue(ApplicationState.EDITING);
+        eventBus.emit(new SimulatorEvent(SimulatorEvent.Type.STOP));
+        eventBus.emit(new ApplicationStateEvent(ApplicationState.EDITING));
     }
 
     private void handleStartButton(ActionEvent actionEvent)
     {
-        simulatorVM.start();
-        applicationVM.getApplicationStateProp().setValue(ApplicationState.RUNNING);
+        eventBus.emit(new SimulatorEvent(SimulatorEvent.Type.START));
+        eventBus.emit(new ApplicationStateEvent(ApplicationState.RUNNING));
     }
 
     /**
@@ -62,13 +56,9 @@ public class Toolbar extends ToolBar
      */
     private void handleClearButton(ActionEvent actionEvent)
     {
-        simulatorVM.stop();
-        applicationVM.getApplicationStateProp().setValue(ApplicationState.EDITING);
-
-        boardVM.getBoardProp().getValue().clearBoard();
-        boardVM.getBoardProp().notifyOfExternalChange();
-
-        editorVM.getDrawModeProp().setValue(CellState.ALIVE);
+        eventBus.emit(new SimulatorEvent(SimulatorEvent.Type.CLEAR));
+        eventBus.emit(new ApplicationStateEvent(ApplicationState.EDITING));
+        eventBus.emit(new DrawModeEvent(CellState.ALIVE));
     }
 
     /**
@@ -76,7 +66,7 @@ public class Toolbar extends ToolBar
      */
     private void handleStepButton(ActionEvent actionEvent)
     {
-        simulatorVM.doStep();
+        eventBus.emit(new SimulatorEvent(SimulatorEvent.Type.STEP));
     }
 
     /**
@@ -84,10 +74,9 @@ public class Toolbar extends ToolBar
      */
     private void handleEraseButton(ActionEvent actionEvent)
     {
-        simulatorVM.stop();
-        applicationVM.getApplicationStateProp().setValue(ApplicationState.EDITING);
-
-        editorVM.getDrawModeProp().setValue(CellState.DEAD);
+        eventBus.emit(new SimulatorEvent(SimulatorEvent.Type.STOP));
+        eventBus.emit(new ApplicationStateEvent(ApplicationState.EDITING));
+        eventBus.emit(new DrawModeEvent(CellState.DEAD));
     }
 
     /**
@@ -95,9 +84,8 @@ public class Toolbar extends ToolBar
      */
     private void handleDrawButton(ActionEvent actionEvent)
     {
-        simulatorVM.stop();
-        applicationVM.getApplicationStateProp().setValue(ApplicationState.EDITING);
-
-        editorVM.getDrawModeProp().setValue(CellState.ALIVE);
+        eventBus.emit(new SimulatorEvent(SimulatorEvent.Type.STOP));
+        eventBus.emit(new ApplicationStateEvent(ApplicationState.EDITING));
+        eventBus.emit(new DrawModeEvent(CellState.ALIVE));
     }
 }

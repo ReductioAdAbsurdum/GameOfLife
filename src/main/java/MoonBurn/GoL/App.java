@@ -5,6 +5,10 @@ import MoonBurn.GoL.model.board.FiniteBoard;
 import MoonBurn.GoL.model.board.IBoard;
 import MoonBurn.GoL.model.enums.ApplicationState;
 import MoonBurn.GoL.model.rules.ConwayRules;
+import MoonBurn.GoL.util.event.classes.ApplicationStateEvent;
+import MoonBurn.GoL.util.event.EventBus;
+import MoonBurn.GoL.util.event.classes.DrawModeEvent;
+import MoonBurn.GoL.util.event.classes.SimulatorEvent;
 import MoonBurn.GoL.viewmodel.ApplicationVM;
 import MoonBurn.GoL.viewmodel.SimulatorVM;
 import MoonBurn.GoL.view.Canvas;
@@ -22,20 +26,24 @@ public class App extends Application
     @Override
     public void start(Stage stage)
     {
+        EventBus eventBus = new EventBus();
+
         IBoard board = new FiniteBoard(40,20);
         Simulation simulation =new Simulation(board,new ConwayRules());
 
         ApplicationVM avm = new ApplicationVM(ApplicationState.EDITING);
         BoardVM bvm = new BoardVM(board);
-
         EditorVM evm = new EditorVM(bvm,avm);
         SimulatorVM svm = new SimulatorVM(bvm, simulation);
 
+        eventBus.addMapping(SimulatorEvent.class, svm::handleSimulatorEvent);
+        eventBus.addMapping(ApplicationStateEvent.class,avm::handleApplicationStateEvent);
+        eventBus.addMapping(DrawModeEvent.class, evm::handleDrawModeEvent);
 
         Canvas boardCanvas = new Canvas(800,400,evm,bvm);
-        Toolbar toolbar = new Toolbar(avm, bvm, evm, svm);
+        Toolbar toolbar = new Toolbar(eventBus);
+        Shell shell = new Shell(eventBus, boardCanvas, toolbar);
 
-        Shell shell = new Shell(evm, boardCanvas, toolbar);
         Scene scene = new Scene(shell);
         stage.setScene(scene);
         stage.show();

@@ -1,6 +1,9 @@
 package MoonBurn.GoL.viewmodel;
 
 import MoonBurn.GoL.model.Simulation;
+import MoonBurn.GoL.model.enums.ApplicationState;
+import MoonBurn.GoL.model.enums.CellState;
+import MoonBurn.GoL.util.event.classes.SimulatorEvent;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
@@ -20,14 +23,32 @@ public class SimulatorVM
         timeline.setCycleCount(Timeline.INDEFINITE);
     }
 
-    public void doStep()
+    public void handleSimulatorEvent(SimulatorEvent event)
+    {
+        switch (event.getEventType())
+        {
+            case STEP:
+                doStep();
+                break;
+            case START:
+                start();
+                break;
+            case STOP:
+                stop();
+                break;
+            case CLEAR:
+                clear();
+                break;
+        }
+    }
+
+    private void doStep()
     {
         simulation.step();
         boardVM.getBoardProp().setValue(simulation.getBoard());
-
     }
 
-    public void start()
+    private void start()
     {
         timeline.play();
     }
@@ -35,5 +56,13 @@ public class SimulatorVM
     public void stop()
     {
         timeline.stop();
+    }
+
+    private void clear()
+    {
+        timeline.stop();
+
+        boardVM.getBoardProp().getValue().clearBoard();
+        boardVM.getBoardProp().notifyOfExternalChange();
     }
 }
