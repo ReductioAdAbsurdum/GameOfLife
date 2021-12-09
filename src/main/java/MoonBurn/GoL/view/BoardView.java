@@ -24,7 +24,7 @@ public class BoardView extends javafx.scene.canvas.Canvas
     private double cellWidth;
 
     private CellPosition cursorPosition = new CellPosition(0,0);
-    private CellState drawMode;
+    private CellState drawMode = CellState.ALIVE;
 
     private BoardVM boardVM;
     private EventBus eventBus;
