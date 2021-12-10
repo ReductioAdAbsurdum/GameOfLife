@@ -29,19 +29,34 @@ public class Shell extends VBox
      */
     private void onKeyPressed(KeyEvent keyEvent)
     {
-        eventBus.emit(new SimulatorEvent(SimulatorEvent.Type.STOP));
-        eventBus.emit(new ApplicationStateEvent(ApplicationState.EDITING));
+
 
         KeyCode key = keyEvent.getCode();
         switch (key)
         {
-            case D:
+            case D: // Set draw mode
+                eventBus.emit(new SimulatorEvent(SimulatorEvent.Type.STOP));
+                eventBus.emit(new ApplicationStateEvent(ApplicationState.EDITING));
                 eventBus.emit(new DrawModeEvent(CellState.ALIVE));
                 break;
 
-            case E:
+            case E: // Set erase mode
+                eventBus.emit(new SimulatorEvent(SimulatorEvent.Type.STOP));
+                eventBus.emit(new ApplicationStateEvent(ApplicationState.EDITING));
                 eventBus.emit(new DrawModeEvent(CellState.DEAD));
                 break;
+            case F: // step
+                eventBus.emit(new SimulatorEvent(SimulatorEvent.Type.STEP));
+                break;
+            case R: // Start
+                eventBus.emit(new SimulatorEvent(SimulatorEvent.Type.START));
+                eventBus.emit(new ApplicationStateEvent(ApplicationState.RUNNING));
+                break;
+            case S: // Stop
+                eventBus.emit(new SimulatorEvent(SimulatorEvent.Type.STOP));
+                eventBus.emit(new ApplicationStateEvent(ApplicationState.EDITING));
+                break;
+
         }
     }
 
