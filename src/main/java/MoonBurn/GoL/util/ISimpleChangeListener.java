@@ -9,5 +9,9 @@ the interface can only contain a single unimplemented method.
 
 public interface ISimpleChangeListener<V>
 {
+    /**
+     * Signature of the lambda function that can to implement interface.
+     * @param value generic value that is parameter of lambda function
+     */
     void valueChanged(V value);
 }
