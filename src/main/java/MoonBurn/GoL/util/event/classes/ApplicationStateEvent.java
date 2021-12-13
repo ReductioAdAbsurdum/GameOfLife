@@ -13,6 +13,10 @@ public class ApplicationStateEvent implements IEvent
         this.applicationState = eventType;
     }
 
+    /**
+     * Returns private field of applicationState that represents new application state that is broadcast.
+     * @return applicationState
+     */
     public ApplicationState getApplicationState()
     {
         return applicationState;

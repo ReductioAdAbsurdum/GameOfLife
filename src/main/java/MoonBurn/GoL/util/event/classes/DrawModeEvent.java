@@ -12,6 +12,10 @@ public class DrawModeEvent implements IEvent
         this.drawMode = eventValue;
     }
 
+    /**
+     * Returns private field of drawMode
+     * @return drawMode
+     */
     public CellState getDrawMode()
     {
         return drawMode;

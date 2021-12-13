@@ -12,6 +12,10 @@ public class BoardPressEvent implements IEvent
         this.cellPosition = cellPosition;
     }
 
+    /**
+     * Returns private field of cell position that represents place where board is pressed.
+     * @return cellPosition
+     */
     public CellPosition getCellPosition()
     {
         return cellPosition;

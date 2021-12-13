@@ -53,8 +53,5 @@ public class Editor
 
         boardVM.getBoardProp().getValue().setState(x,y,drawModeProp.getValue());
         boardVM.getBoardProp().notifyOfExternalChange();
-
-        String logMessage = String.format("Canvas: %d | %d",x,y);
-        System.out.println(logMessage);
     }
 }
