@@ -19,33 +19,39 @@ public class Toolbar extends ToolBar
         this.eventBus = eventBus;
 
         Button draw = new Button("Draw");
-        draw.setOnAction(this::handleDrawButton);
+        draw.setOnAction(this::onDrawButton);
 
         Button erase = new Button("Erase");
-        erase.setOnAction(this::handleEraseButton);
+        erase.setOnAction(this::onEraseButton);
         
         Button clear = new Button("Clear");
-        clear.setOnAction(this::handleClearButton);
+        clear.setOnAction(this::onClearButton);
 
         Button step = new Button("Step");
-        step.setOnAction(this::handleStepButton);
+        step.setOnAction(this::onStepButton);
 
         Button start = new Button("Start");
-        start.setOnAction(this::handleStartButton);
+        start.setOnAction(this::onStartButton);
 
         Button stop = new Button("Stop");
-        stop.setOnAction(this::handleStopButton);
+        stop.setOnAction(this::onStopButton);
 
         this.getItems().addAll(draw,erase,clear,step,start,stop);
     }
 
-    private void handleStopButton(ActionEvent actionEvent)
+    /**
+     * Handles stop button press event.
+     */
+    private void onStopButton(ActionEvent actionEvent)
     {
         eventBus.emit(new SimulatorEvent(SimulatorEvent.Type.STOP));
         eventBus.emit(new ApplicationStateEvent(ApplicationState.EDITING));
     }
 
-    private void handleStartButton(ActionEvent actionEvent)
+    /**
+     * Handles start button press event.
+     */
+    private void onStartButton(ActionEvent actionEvent)
     {
         eventBus.emit(new SimulatorEvent(SimulatorEvent.Type.START));
         eventBus.emit(new ApplicationStateEvent(ApplicationState.RUNNING));
@@ -54,7 +60,7 @@ public class Toolbar extends ToolBar
     /**
      * Handles clear button press event.
      */
-    private void handleClearButton(ActionEvent actionEvent)
+    private void onClearButton(ActionEvent actionEvent)
     {
         eventBus.emit(new SimulatorEvent(SimulatorEvent.Type.CLEAR));
         eventBus.emit(new ApplicationStateEvent(ApplicationState.EDITING));
@@ -64,7 +70,7 @@ public class Toolbar extends ToolBar
     /**
      * Handles step button press event.
      */
-    private void handleStepButton(ActionEvent actionEvent)
+    private void onStepButton(ActionEvent actionEvent)
     {
         eventBus.emit(new SimulatorEvent(SimulatorEvent.Type.STEP));
     }
@@ -72,7 +78,7 @@ public class Toolbar extends ToolBar
     /**
      * Handles erase button press event.
      */
-    private void handleEraseButton(ActionEvent actionEvent)
+    private void onEraseButton(ActionEvent actionEvent)
     {
         eventBus.emit(new SimulatorEvent(SimulatorEvent.Type.STOP));
         eventBus.emit(new ApplicationStateEvent(ApplicationState.EDITING));
@@ -82,7 +88,7 @@ public class Toolbar extends ToolBar
     /**
      * Handles draw button press event.
      */
-    private void handleDrawButton(ActionEvent actionEvent)
+    private void onDrawButton(ActionEvent actionEvent)
     {
         eventBus.emit(new SimulatorEvent(SimulatorEvent.Type.STOP));
         eventBus.emit(new ApplicationStateEvent(ApplicationState.EDITING));

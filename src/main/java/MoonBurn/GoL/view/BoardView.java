@@ -47,12 +47,20 @@ public class BoardView extends javafx.scene.canvas.Canvas
         this.setOnMouseMoved(this::onMouseMovedEvent);
     }
 
-    public void handleDrawModeEvent(DrawModeEvent event)
+    /**
+     * Listener for the DrawModeEvent that is broadcast when draw mode is changed
+     * @param event draw mode event
+     */
+    public void onDrawModeEvent(DrawModeEvent event)
     {
         drawMode = event.getDrawMode();
         draw();
     }
 
+    /**
+     * Method is called when mouse is moved or dragged
+     * @param mouseEvent mouse event parameter
+     */
     private void onMouseMovedEvent(MouseEvent mouseEvent)
     {
         cursorPosition = createCellPosition(mouseEvent);
@@ -60,7 +68,7 @@ public class BoardView extends javafx.scene.canvas.Canvas
     }
 
     /**
-     * Method is called when the board change is broadcast.
+     * Method is called when the board change is broadcast from BoardViewModel.
      * @param board board that is sent form BoarViewModel
      */
     private void onBoardChanged(IBoard board)
@@ -77,7 +85,7 @@ public class BoardView extends javafx.scene.canvas.Canvas
     }
 
     /**
-     * Draws current board.
+     * Draws current board to the canvas.
      */
     private void draw()
     {
@@ -125,6 +133,11 @@ public class BoardView extends javafx.scene.canvas.Canvas
         }
     }
 
+    /**
+     * Creates cell position from the MouseEvent
+     * @param m MouseEvent
+     * @return CellPosition that represents mouse location
+     */
     private CellPosition createCellPosition(MouseEvent m)
     {
         int mouseX = (int) m.getX();

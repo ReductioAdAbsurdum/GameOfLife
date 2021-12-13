@@ -43,7 +43,7 @@ public class App extends Application
         eventBus.addMapping(BoardPressEvent.class, editor::onBoardPressed);
 
         BoardView boardView = new BoardView(800,400, boardVM, eventBus);
-        eventBus.addMapping(DrawModeEvent.class, boardView::handleDrawModeEvent);
+        eventBus.addMapping(DrawModeEvent.class, boardView::onDrawModeEvent);
         Toolbar toolbar = new Toolbar(eventBus);
         Shell shell = new Shell(eventBus, boardView, toolbar);
 
