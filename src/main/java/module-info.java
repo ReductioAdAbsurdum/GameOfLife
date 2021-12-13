@@ -9,4 +9,6 @@ module MoonBurn {
     exports MoonBurn.GoL.util.event.classes;
     exports MoonBurn.GoL.model.enums;
     exports MoonBurn.GoL.util.event;
+    exports MoonBurn.GoL.model.board;
+    exports MoonBurn.GoL.model.rules;
 }

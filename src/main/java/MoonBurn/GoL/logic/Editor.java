@@ -46,12 +46,12 @@ public class Editor
         int y = event.getCellPosition().getY();
 
         //Guard logic if there is no change
-        if(drawModeProp.getValue() == boardVM.getBoardProp().getValue().getState(x,y))
+        if(drawModeProp.getValue() == boardVM.getWrappedBoardProp().getValue().getBoard().getState(x,y))
         {
             return;
         }
 
-        boardVM.getBoardProp().getValue().setState(x,y,drawModeProp.getValue());
-        boardVM.getBoardProp().notifyOfExternalChange();
+        boardVM.getWrappedBoardProp().getValue().getBoard().setState(x,y,drawModeProp.getValue());
+        boardVM.getWrappedBoardProp().notifyOfExternalChange();
     }
 }

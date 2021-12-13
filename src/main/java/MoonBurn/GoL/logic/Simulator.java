@@ -1,6 +1,5 @@
 package MoonBurn.GoL.logic;
 
-import MoonBurn.GoL.model.Simulation;
 import MoonBurn.GoL.util.event.classes.SimulatorEvent;
 import MoonBurn.GoL.viewmodel.BoardVM;
 import javafx.animation.KeyFrame;
@@ -10,13 +9,13 @@ import javafx.util.Duration;
 public class Simulator
 {
     private Timeline timeline;
-    private Simulation simulation;
+    private RuleApplier ruleApplier;
     private BoardVM boardVM;
 
-    public Simulator(BoardVM boardVM, Simulation simulation)
+    public Simulator(BoardVM boardVM, RuleApplier ruleApplier)
     {
         this.boardVM = boardVM;
-        this.simulation = simulation;
+        this.ruleApplier = ruleApplier;
 
         timeline = new Timeline(new KeyFrame(Duration.millis(200), actionEvent -> doStep()));
         timeline.setCycleCount(Timeline.INDEFINITE);
@@ -43,8 +42,8 @@ public class Simulator
 
     private void doStep()
     {
-        simulation.step();
-        boardVM.getBoardProp().setValue(simulation.getBoard());
+        ruleApplier.step();
+        boardVM.getWrappedBoardProp().notifyOfExternalChange();
     }
 
     private void start()
@@ -61,7 +60,7 @@ public class Simulator
     {
         timeline.stop();
 
-        boardVM.getBoardProp().getValue().clearBoard();
-        boardVM.getBoardProp().notifyOfExternalChange();
+        boardVM.getWrappedBoardProp().getValue().getBoard().clearBoard();
+        boardVM.getWrappedBoardProp().notifyOfExternalChange();
     }
 }

@@ -1,19 +1,19 @@
 package MoonBurn.GoL.viewmodel;
 
-import MoonBurn.GoL.model.board.IBoard;
+import MoonBurn.GoL.model.board.BoardWrapper;
 import MoonBurn.GoL.util.Property;
 
 public class BoardVM
 {
-    private Property<IBoard> boardProp;
+    private Property<BoardWrapper> wrappedBoardProp;
 
-    public BoardVM(IBoard initialBoard)
+    public BoardVM(BoardWrapper initialWrappedBoard)
     {
-       boardProp = new Property<IBoard>(initialBoard);
+        wrappedBoardProp = new Property<>(initialWrappedBoard);
     }
 
-    public Property<IBoard> getBoardProp()
+    public Property<BoardWrapper> getWrappedBoardProp()
     {
-        return boardProp;
+        return wrappedBoardProp;
     }
 }

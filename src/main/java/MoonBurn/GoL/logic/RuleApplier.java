@@ -1,17 +1,18 @@
-package MoonBurn.GoL.model;
+package MoonBurn.GoL.logic;
 
+import MoonBurn.GoL.model.board.BoardWrapper;
 import MoonBurn.GoL.model.enums.CellState;
 import MoonBurn.GoL.model.board.IBoard;
 import MoonBurn.GoL.model.rules.IRules;
 
-public class Simulation
+public class RuleApplier
 {
-    private IBoard board;
+    private BoardWrapper wrappedBoard;
     private IRules rules;
 
-    public Simulation(IBoard board, IRules rules)
+    public RuleApplier(BoardWrapper wrappedBoard, IRules rules)
     {
-        this.board = board;
+        this.wrappedBoard = wrappedBoard;
         this.rules = rules;
     }
 
@@ -20,22 +21,17 @@ public class Simulation
      */
     public void step()
     {
-        IBoard nextBoard = board.deepCleanCopy();
+        IBoard nextBoard = wrappedBoard.getBoard().deepCleanCopy();
 
         for (int x = 0; x < nextBoard.getWidth(); x++)
         {
             for (int y = 0; y < nextBoard.getHeight(); y++)
             {
-                CellState nextState = rules.getNextState(x,y,board);
+                CellState nextState = rules.getNextState(x,y, wrappedBoard.getBoard());
                 nextBoard.setState(x,y,nextState);
             }
         }
 
-        board = nextBoard;
-    }
-
-    public IBoard getBoard()
-    {
-        return board;
+        wrappedBoard.setBoard(nextBoard);
     }
 }
