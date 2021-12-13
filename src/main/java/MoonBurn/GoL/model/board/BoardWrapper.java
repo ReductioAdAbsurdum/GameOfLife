@@ -9,6 +9,10 @@ public class BoardWrapper
         this.board = board;
     }
 
+    /**
+     * Return wrapped board
+     * @return
+     */
     public IBoard getBoard()
     {
         return board;
