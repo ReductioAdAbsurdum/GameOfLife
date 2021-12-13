@@ -6,13 +6,13 @@ public class FiniteBoard implements IBoard
 {
     private int width;
     private int height;
-    private CellState[][] board;
+    private CellState[][] cellStates;
 
     public FiniteBoard(int width, int height)
     {
         this.width = width;
         this.height = height;
-        board = new CellState[width][height];
+        cellStates = new CellState[width][height];
         InitializeBoard();
     }
     private void InitializeBoard()
@@ -21,7 +21,7 @@ public class FiniteBoard implements IBoard
         {
             for (int y = 0; y < height; y++)
             {
-                board[x][y] = CellState.DEAD;
+                cellStates[x][y] = CellState.DEAD;
             }
         }
     }
@@ -34,7 +34,7 @@ public class FiniteBoard implements IBoard
         {
             if (y < height && y >= 0)
             {
-                result = board[x][y];
+                result = cellStates[x][y];
             }
         }
         return result;
@@ -51,7 +51,7 @@ public class FiniteBoard implements IBoard
             return;
         }
 
-        this.board[x][y] =cellState;
+        this.cellStates[x][y] =cellState;
     }
     @Override
     public void clearBoard()

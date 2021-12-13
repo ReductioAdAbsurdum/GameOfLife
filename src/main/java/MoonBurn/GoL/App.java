@@ -1,6 +1,7 @@
 package MoonBurn.GoL;
 
-import MoonBurn.GoL.model.Simulation;
+import MoonBurn.GoL.logic.RuleApplier;
+import MoonBurn.GoL.model.board.BoardWraper;
 import MoonBurn.GoL.model.board.FiniteBoard;
 import MoonBurn.GoL.model.board.IBoard;
 import MoonBurn.GoL.model.enums.ApplicationState;
@@ -30,12 +31,13 @@ public class App extends Application
         EventBus eventBus = new EventBus();
 
         IBoard board = new FiniteBoard(40,20);
-        Simulation simulation =new Simulation(board,new ConwayRules());
+        BoardWraper wrappedBoard = new BoardWraper(board);
+        RuleApplier ruleApplier =new RuleApplier(wrappedBoard,new ConwayRules());
 
         ApplicationStateManager applicationStateManager = new ApplicationStateManager(ApplicationState.EDITING);
-        BoardVM boardVM = new BoardVM(board);
+        BoardVM boardVM = new BoardVM(wrappedBoard);
         Editor editor = new Editor(boardVM, applicationStateManager);
-        Simulator simulator = new Simulator(boardVM, simulation);
+        Simulator simulator = new Simulator(boardVM, ruleApplier);
 
         eventBus.addMapping(SimulatorEvent.class, simulator::handleSimulatorEvent);
         eventBus.addMapping(ApplicationStateEvent.class, applicationStateManager::handleApplicationStateEvent);
@@ -51,7 +53,7 @@ public class App extends Application
         stage.setScene(scene);
         stage.show();
 
-        boardVM.getBoardProp().notifyOfExternalChange();
+        boardVM.getWrappedBoardProp().notifyOfExternalChange();
     }
 
     public static void main(String[] args)
