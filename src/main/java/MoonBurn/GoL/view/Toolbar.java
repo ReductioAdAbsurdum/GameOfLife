@@ -38,7 +38,7 @@ public class Toolbar extends ToolBar
         Button stop = new Button("Stop");
         stop.setOnAction(this::onStopButton);
 
-        PopulateListView();
+        //ListView listView = new ListView();
 
         this.getItems().addAll(draw,erase,clear,step,start,stop);
     }
@@ -99,22 +99,4 @@ public class Toolbar extends ToolBar
         eventBus.emit(new DrawModeEvent(CellState.ALIVE));
     }
 
-    private void PopulateListView()
-    {
-        try {
-            File file = new File("C:\\Users\\Monster\\Desktop\\GameOfLife\\src\\main\\resources\\Oscillator");
-
-            Scanner input = new Scanner(file);
-
-
-            while (input.hasNextLine()) {
-                String line = input.nextLine();
-                System.out.println(line);
-            }
-            input.close();
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
 }

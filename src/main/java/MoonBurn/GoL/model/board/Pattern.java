@@ -5,14 +5,14 @@ import MoonBurn.GoL.model.enums.CellState;
 public class Pattern
 {
     private String patternName;
-    private String inputString;
+    private String patternString;
     private int width;
     private int height;
     private CellState[][] matrix;
 
-    public Pattern(String inputString, String patternName)
+    public Pattern(String patternString, String patternName)
     {
-        this.inputString = inputString;
+        this.patternString = patternString;
         this.patternName = patternName;
         createMatrix();
     }
@@ -40,7 +40,7 @@ public class Pattern
     {
         try
         {
-            String[] hashtagBreak = inputString.split("#");
+            String[] hashtagBreak = patternString.split("#");
             width = Integer.parseInt(hashtagBreak[0]);
             height = Integer.parseInt(hashtagBreak[1]);
             matrix = new CellState[width][height];
