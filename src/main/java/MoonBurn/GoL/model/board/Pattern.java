@@ -8,7 +8,7 @@ public class Pattern
     private static int height;
     private static CellState[][] matrix;
 
-    public void createPatterFromString(String pattern)
+    public void createMatrixFromString(String pattern)
     {
         try
         {
@@ -17,14 +17,19 @@ public class Pattern
             height = Integer.parseInt(hashtagBreak[1]);
             matrix = new CellState[width][height];
 
-            String[] pipeBreak = hashtagBreak[2].split("|");
+            String[] value = hashtagBreak[2].split("!");
+
             for (int x = 0; x < width; x++)
             {
                 for (int y = 0; y < height; y++)
                 {
-                    if (pipeBreak[x].charAt(y) == 1)
+                    if (value[x].charAt(y) == '1')
                     {
                         matrix[x][y] = CellState.ALIVE;
+                    }
+                    else
+                    {
+                        matrix[x][y] = CellState.DEAD;
                     }
                 }
             }
@@ -33,6 +38,11 @@ public class Pattern
         {
             System.out.println("Invalid string");
         }
+    }
+
+    public CellState[][] getMatrix()
+    {
+        return matrix;
     }
 
 }

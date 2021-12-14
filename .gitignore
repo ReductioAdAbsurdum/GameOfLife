@@ -1,3 +1,4 @@
 # Project exclude paths
 /target/
 /src/main/java/MoonBurn/GoL/Predavanje.java
+/src/main/java/MoonBurn/GoL/Predavanja.java
