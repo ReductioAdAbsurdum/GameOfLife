@@ -4,15 +4,43 @@ import MoonBurn.GoL.model.enums.CellState;
 
 public class Pattern
 {
-    private static int width;
-    private static int height;
-    private static CellState[][] matrix;
+    private String patternName;
+    private String inputString;
+    private int width;
+    private int height;
+    private CellState[][] matrix;
 
-    public void createMatrixFromString(String pattern)
+    public Pattern(String inputString, String patternName)
+    {
+        this.inputString = inputString;
+        this.patternName = patternName;
+        createMatrix();
+    }
+    public CellState[][] getMatrix()
+    {
+        return matrix;
+    }
+
+    public int getWidth()
+    {
+        return width;
+    }
+
+    public int getHeight()
+    {
+        return height;
+    }
+
+    public String getPatternName()
+    {
+        return patternName;
+    }
+
+    private void createMatrix()
     {
         try
         {
-            String[] hashtagBreak = pattern.split("#");
+            String[] hashtagBreak = inputString.split("#");
             width = Integer.parseInt(hashtagBreak[0]);
             height = Integer.parseInt(hashtagBreak[1]);
             matrix = new CellState[width][height];
@@ -38,11 +66,6 @@ public class Pattern
         {
             System.out.println("Invalid string");
         }
-    }
-
-    public CellState[][] getMatrix()
-    {
-        return matrix;
     }
 
 }
