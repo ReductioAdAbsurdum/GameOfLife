@@ -1,7 +1,7 @@
 package MoonBurn.GoL.view;
 
 import MoonBurn.GoL.model.CellPosition;
-import MoonBurn.GoL.model.board.BoardWrapper;
+import MoonBurn.GoL.util.Wrapper;
 import MoonBurn.GoL.model.enums.CellState;
 import MoonBurn.GoL.util.event.EventBus;
 import MoonBurn.GoL.util.event.classes.BoardPressEvent;
@@ -36,8 +36,8 @@ public class BoardView extends javafx.scene.canvas.Canvas
         this.eventBus = eventBus;
         this.boardVM.getWrappedBoardProp().addListener(this::onBoardChanged);
 
-        cellWidth = getWidth() / (double) this.boardVM.getWrappedBoardProp().getValue().getBoard().getWidth();
-        cellHeight = getHeight() / (double) this.boardVM.getWrappedBoardProp().getValue().getBoard().getHeight();
+        cellWidth = getWidth() / (double) this.boardVM.getWrappedBoardProp().getValue().getWrappedValue().getWidth();
+        cellHeight = getHeight() / (double) this.boardVM.getWrappedBoardProp().getValue().getWrappedValue().getHeight();
 
         this.setOnMousePressed(this::onMouseClickEvent);
         this.setOnMouseDragged(mouseEvent -> {
@@ -71,7 +71,7 @@ public class BoardView extends javafx.scene.canvas.Canvas
      * Method is called when the board change is broadcast from BoardViewModel.
      * @param wrappedBoard board that is sent form BoarViewModel
      */
-    private void onBoardChanged(BoardWrapper wrappedBoard)
+    private void onBoardChanged(Wrapper wrappedBoard)
     {
         draw();
     }
@@ -96,11 +96,11 @@ public class BoardView extends javafx.scene.canvas.Canvas
 
         // Draws alive cells
         graphCont.setFill(aliveCellColor);
-        for (int x = 0; x < boardVM.getWrappedBoardProp().getValue().getBoard().getWidth(); x++)
+        for (int x = 0; x < boardVM.getWrappedBoardProp().getValue().getWrappedValue().getWidth(); x++)
         {
-            for (int y = 0; y < boardVM.getWrappedBoardProp().getValue().getBoard().getHeight(); y++)
+            for (int y = 0; y < boardVM.getWrappedBoardProp().getValue().getWrappedValue().getHeight(); y++)
             {
-                if(boardVM.getWrappedBoardProp().getValue().getBoard().getState(x,y) == CellState.ALIVE)
+                if(boardVM.getWrappedBoardProp().getValue().getWrappedValue().getState(x,y) == CellState.ALIVE)
                 {
                     graphCont.fillRect(x * cellWidth, y * cellHeight, cellWidth , cellHeight);
                 }
@@ -123,11 +123,11 @@ public class BoardView extends javafx.scene.canvas.Canvas
         // Draws gridlines
         graphCont.setFill(gridlinesColor);
         graphCont.setLineWidth(Math.min(cellHeight,cellWidth)/25);
-        for (int x = 0; x <= boardVM.getWrappedBoardProp().getValue().getBoard().getWidth(); x++)
+        for (int x = 0; x <= boardVM.getWrappedBoardProp().getValue().getWrappedValue().getWidth(); x++)
         {
             graphCont.strokeLine(x * cellWidth,0,x * cellWidth, getHeight());
         }
-        for (int y = 0; y <= boardVM.getWrappedBoardProp().getValue().getBoard().getHeight(); y++)
+        for (int y = 0; y <= boardVM.getWrappedBoardProp().getValue().getWrappedValue().getHeight(); y++)
         {
             graphCont.strokeLine(0,y*cellHeight, getWidth(),y*cellHeight);
         }

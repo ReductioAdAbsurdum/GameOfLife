@@ -60,7 +60,7 @@ public class Simulator
     {
         timeline.stop();
 
-        boardVM.getWrappedBoardProp().getValue().getBoard().clearBoard();
+        boardVM.getWrappedBoardProp().getValue().getWrappedValue().clearBoard();
         boardVM.getWrappedBoardProp().notifyOfExternalChange();
     }
 }

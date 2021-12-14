@@ -1,7 +1,7 @@
 package MoonBurn.GoL;
 
 import MoonBurn.GoL.logic.RuleApplier;
-import MoonBurn.GoL.model.board.BoardWrapper;
+import MoonBurn.GoL.util.Wrapper;
 import MoonBurn.GoL.model.board.FiniteBoard;
 import MoonBurn.GoL.model.board.IBoard;
 import MoonBurn.GoL.model.enums.ApplicationState;
@@ -31,16 +31,17 @@ public class App extends Application
         EventBus eventBus = new EventBus();
 
         IBoard board = new FiniteBoard(40,20);
-        BoardWrapper wrappedBoard = new BoardWrapper(board);
+        Wrapper<IBoard> wrappedBoard = new Wrapper<>(board);
+        BoardVM boardVM = new BoardVM(wrappedBoard);
+
         RuleApplier ruleApplier =new RuleApplier(wrappedBoard,new ConwayRules());
+        Simulator simulator = new Simulator(boardVM, ruleApplier);
+        eventBus.addMapping(SimulatorEvent.class, simulator::handleSimulatorEvent);
 
         ApplicationStateManager applicationStateManager = new ApplicationStateManager(ApplicationState.EDITING);
-        BoardVM boardVM = new BoardVM(wrappedBoard);
-        Editor editor = new Editor(boardVM, applicationStateManager);
-        Simulator simulator = new Simulator(boardVM, ruleApplier);
-
-        eventBus.addMapping(SimulatorEvent.class, simulator::handleSimulatorEvent);
         eventBus.addMapping(ApplicationStateEvent.class, applicationStateManager::handleApplicationStateEvent);
+
+        Editor editor = new Editor(boardVM, applicationStateManager);
         eventBus.addMapping(DrawModeEvent.class, editor::handleDrawModeEvent);
         eventBus.addMapping(BoardPressEvent.class, editor::onBoardPressed);
 
