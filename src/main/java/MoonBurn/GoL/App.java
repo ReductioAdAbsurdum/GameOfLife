@@ -18,6 +18,7 @@ import MoonBurn.GoL.viewmodel.BoardVM;
 import MoonBurn.GoL.logic.Editor;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import MoonBurn.GoL.view.Shell;
 import MoonBurn.GoL.view.Toolbar;
@@ -28,6 +29,7 @@ public class App extends Application
     @Override
     public void start(Stage stage)
     {
+
         EventBus eventBus = new EventBus();
 
         IBoard board = new FiniteBoard(40,20);

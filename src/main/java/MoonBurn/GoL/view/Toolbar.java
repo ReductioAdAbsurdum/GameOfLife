@@ -9,6 +9,8 @@ import MoonBurn.GoL.util.event.classes.SimulatorEvent;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
+import java.io.File;
+import java.util.Scanner;
 
 public class Toolbar extends ToolBar
 {
@@ -35,6 +37,8 @@ public class Toolbar extends ToolBar
 
         Button stop = new Button("Stop");
         stop.setOnAction(this::onStopButton);
+
+        PopulateListView();
 
         this.getItems().addAll(draw,erase,clear,step,start,stop);
     }
@@ -93,5 +97,24 @@ public class Toolbar extends ToolBar
         eventBus.emit(new SimulatorEvent(SimulatorEvent.Type.STOP));
         eventBus.emit(new ApplicationStateEvent(ApplicationState.EDITING));
         eventBus.emit(new DrawModeEvent(CellState.ALIVE));
+    }
+
+    private void PopulateListView()
+    {
+        try {
+            File file = new File("C:\\Users\\Monster\\Desktop\\GameOfLife\\src\\main\\resources\\Oscillator");
+
+            Scanner input = new Scanner(file);
+
+
+            while (input.hasNextLine()) {
+                String line = input.nextLine();
+                System.out.println(line);
+            }
+            input.close();
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 }
