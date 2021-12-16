@@ -6,11 +6,10 @@ import MoonBurn.GoL.util.event.EventBus;
 import MoonBurn.GoL.util.event.classes.ApplicationStateEvent;
 import MoonBurn.GoL.util.event.classes.DrawModeEvent;
 import MoonBurn.GoL.util.event.classes.SimulatorEvent;
+import MoonBurn.GoL.view.patternSelect.PatternSelectorView;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ToolBar;
-import java.io.File;
-import java.util.Scanner;
 
 public class Toolbar extends ToolBar
 {
@@ -38,9 +37,9 @@ public class Toolbar extends ToolBar
         Button stop = new Button("Stop");
         stop.setOnAction(this::onStopButton);
 
-        //ListView listView = new ListView();
+        PatternSelectorView patternSelectorView = new PatternSelectorView(eventBus);
 
-        this.getItems().addAll(draw,erase,clear,step,start,stop);
+        this.getItems().addAll(draw,erase,clear,step,start,stop, patternSelectorView);
     }
 
     /**

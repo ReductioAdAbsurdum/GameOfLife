@@ -40,7 +40,7 @@ class PatternTest
     }
 
     @Test
-    void patternConstructor_Still_Square()
+    void createMatrix_Still_Square()
     {
         Pattern pattern = new Pattern(stillBlockString,"Block");
         for (int x = 0; x < pattern.getWidth() ; x++)
@@ -52,7 +52,7 @@ class PatternTest
         }
     }
     @Test
-    void patternConstructor_Still_BeeHive()
+    void createMatrix_Still_BeeHive()
     {
         Pattern pattern = new Pattern(stillBeeHiveString,"Bee-Hive");
         for (int x = 0; x < pattern.getWidth() ; x++)

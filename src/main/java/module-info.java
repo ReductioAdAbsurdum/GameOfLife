@@ -11,4 +11,5 @@ module MoonBurn {
     exports MoonBurn.GoL.util.event;
     exports MoonBurn.GoL.model.board;
     exports MoonBurn.GoL.model.rules;
+    exports MoonBurn.GoL.view.patternSelect;
 }
