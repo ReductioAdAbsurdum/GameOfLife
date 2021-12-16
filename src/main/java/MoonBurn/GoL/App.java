@@ -43,6 +43,7 @@ public class App extends Application
         Editor editor = new Editor(boardVM, applicationStateManager);
         eventBus.addMapping(DrawModeEvent.class, editor::handleDrawModeEvent);
         eventBus.addMapping(BoardPressEvent.class, editor::onBoardPressed);
+        eventBus.addMapping(BoardMultiplePressesEvent.class, editor::onBoardMultiplePressed);
 
         BoardView boardView = new BoardView(800,400, boardVM, eventBus);
         eventBus.addMapping(PatternEvent.class, boardView::onPatternSelected);

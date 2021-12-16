@@ -5,6 +5,7 @@ import MoonBurn.GoL.model.board.Pattern;
 import MoonBurn.GoL.util.Wrapper;
 import MoonBurn.GoL.model.enums.CellState;
 import MoonBurn.GoL.util.event.EventBus;
+import MoonBurn.GoL.util.event.classes.BoardMultiplePressesEvent;
 import MoonBurn.GoL.util.event.classes.BoardPressEvent;
 import MoonBurn.GoL.util.event.classes.DrawModeEvent;
 import MoonBurn.GoL.util.event.classes.PatternEvent;
@@ -12,6 +13,8 @@ import MoonBurn.GoL.viewmodel.BoardVM;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+
+import java.util.HashMap;
 
 
 public class BoardView extends javafx.scene.canvas.Canvas
@@ -85,7 +88,27 @@ public class BoardView extends javafx.scene.canvas.Canvas
      */
     private void onMouseClickEvent(MouseEvent mouseEvent)
     {
-        eventBus.emit(new BoardPressEvent(cursorPosition));
+        if(drawingPatternActive == true)
+        {
+            HashMap<CellPosition,CellState> cellMap = new HashMap<>();
+
+            for (int x = 0; x < currentPattern.getWidth(); x++)
+            {
+                for (int y = 0; y < currentPattern.getHeight(); y++)
+                {
+                    CellPosition position = new CellPosition(cursorPosition.getX() + x,cursorPosition.getY()+ y);
+                    CellState state = currentPattern.getMatrix()[x][y];
+                    cellMap.put(position, state);
+                }
+            }
+
+            eventBus.emit(new BoardMultiplePressesEvent(cellMap));
+        }
+        else
+        {
+            eventBus.emit(new BoardPressEvent(cursorPosition));
+
+        }
     }
 
     /**
@@ -119,7 +142,14 @@ public class BoardView extends javafx.scene.canvas.Canvas
             {
                 for (int y = 0; y < currentPattern.getHeight(); y++)
                 {
-                    graphCont.fillRect((cursorPosition.getX() + x) * cellWidth, (cursorPosition.getY()+ y)* cellHeight, cellWidth , cellHeight);
+                    if(currentPattern.getMatrix()[x][y] == CellState.DEAD)
+                    {
+                        continue;
+                    }
+                    int movedX = cursorPosition.getX() + x;
+                    int movedY = cursorPosition.getY() + y;
+
+                    graphCont.fillRect(movedX * cellWidth, movedY * cellHeight, cellWidth , cellHeight);
                 }
             }
         }
