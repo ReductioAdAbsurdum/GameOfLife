@@ -55,15 +55,4 @@ public class Editor
         boardVM.getWrappedBoardProp().getValue().getWrappedValue().setState(x,y,drawModeProp.getValue());
         boardVM.getWrappedBoardProp().notifyOfExternalChange();
     }
-
-    public void onPatternSelected(PatternEvent event)
-    {
-        if(isDrawingEnabled == false)
-        {
-            return;
-        }
-
-        System.out.println(event.getPatternName());
-        System.out.println(event.getPatternString());
-    }
 }

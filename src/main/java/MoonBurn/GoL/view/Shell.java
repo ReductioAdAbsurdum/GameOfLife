@@ -13,10 +13,12 @@ import javafx.scene.layout.VBox;
 public class Shell extends VBox
 {
     public EventBus eventBus;
+    private BoardView boardView;
 
     public Shell(EventBus eventBus, BoardView boardView, Toolbar toolbar)
     {
         this.eventBus = eventBus;
+        this.boardView = boardView;
 
         this.setOnKeyPressed(this::onKeyPressed);
 
@@ -55,6 +57,9 @@ public class Shell extends VBox
             case S: // Stop
                 eventBus.emit(new SimulatorEvent(SimulatorEvent.Type.STOP));
                 eventBus.emit(new ApplicationStateEvent(ApplicationState.EDITING));
+                break;
+            case ESCAPE: // Stop
+                boardView.onEscPressed();
                 break;
 
         }

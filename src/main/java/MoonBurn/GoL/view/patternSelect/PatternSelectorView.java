@@ -1,7 +1,12 @@
 package MoonBurn.GoL.view.patternSelect;
 
+import MoonBurn.GoL.model.enums.ApplicationState;
+import MoonBurn.GoL.model.enums.CellState;
 import MoonBurn.GoL.util.event.EventBus;
+import MoonBurn.GoL.util.event.classes.ApplicationStateEvent;
+import MoonBurn.GoL.util.event.classes.DrawModeEvent;
 import MoonBurn.GoL.util.event.classes.PatternEvent;
+import MoonBurn.GoL.util.event.classes.SimulatorEvent;
 import javafx.event.Event;
 import javafx.geometry.Insets;
 import javafx.scene.control.CheckBox;
@@ -58,7 +63,11 @@ public class PatternSelectorView extends HBox
         }
         String patternName =  patternList.getValue().toString();
         String patternString = patternList.getPatternStringByName(patternName);
+
         eventBus.emit(new PatternEvent(patternName, patternString));
+        eventBus.emit(new SimulatorEvent(SimulatorEvent.Type.STOP));
+        eventBus.emit(new ApplicationStateEvent(ApplicationState.EDITING));
+        eventBus.emit(new DrawModeEvent(CellState.ALIVE));
     }
 
     private void ClickedStillLifeCB(MouseEvent m)

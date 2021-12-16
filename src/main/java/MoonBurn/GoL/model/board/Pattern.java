@@ -10,7 +10,7 @@ public class Pattern
     private int height;
     private CellState[][] matrix;
 
-    public Pattern(String patternString, String patternName)
+    public Pattern(String patternName, String patternString)
     {
         this.patternString = patternString;
         this.patternName = patternName;

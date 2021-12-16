@@ -1,11 +1,13 @@
 package MoonBurn.GoL.view;
 
 import MoonBurn.GoL.model.CellPosition;
+import MoonBurn.GoL.model.board.Pattern;
 import MoonBurn.GoL.util.Wrapper;
 import MoonBurn.GoL.model.enums.CellState;
 import MoonBurn.GoL.util.event.EventBus;
 import MoonBurn.GoL.util.event.classes.BoardPressEvent;
 import MoonBurn.GoL.util.event.classes.DrawModeEvent;
+import MoonBurn.GoL.util.event.classes.PatternEvent;
 import MoonBurn.GoL.viewmodel.BoardVM;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
@@ -25,6 +27,8 @@ public class BoardView extends javafx.scene.canvas.Canvas
 
     private CellPosition cursorPosition = new CellPosition(0,0);
     private CellState drawMode = CellState.ALIVE;
+    private boolean drawingPatternActive = false;
+    private Pattern currentPattern;
 
     private BoardVM boardVM;
     private EventBus eventBus;
@@ -91,6 +95,7 @@ public class BoardView extends javafx.scene.canvas.Canvas
     {
         GraphicsContext graphCont = getGraphicsContext2D();
 
+        // Fills background
         graphCont.setFill(backgroundColor);
         graphCont.fillRect(0,0, getWidth(), getHeight());
 
@@ -107,17 +112,29 @@ public class BoardView extends javafx.scene.canvas.Canvas
             }
         }
 
-        // Draws highlighted cell
-
-        if(drawMode == CellState.ALIVE)
+        if(drawingPatternActive) //Draws pattern
         {
             graphCont.setFill(highlightedCellDrawColor);
+            for (int x = 0; x < currentPattern.getWidth(); x++)
+            {
+                for (int y = 0; y < currentPattern.getHeight(); y++)
+                {
+                    graphCont.fillRect((cursorPosition.getX() + x) * cellWidth, (cursorPosition.getY()+ y)* cellHeight, cellWidth , cellHeight);
+                }
+            }
         }
-        else
+        else // Draws highlighted cell
         {
-            graphCont.setFill(highlightedCellEraseColor);
+            if(drawMode == CellState.ALIVE)
+            {
+                graphCont.setFill(highlightedCellDrawColor);
+            }
+            else
+            {
+                graphCont.setFill(highlightedCellEraseColor);
+            }
+            graphCont.fillRect(cursorPosition.getX() * cellWidth, cursorPosition.getY()* cellHeight, cellWidth , cellHeight);
         }
-        graphCont.fillRect(cursorPosition.getX() * cellWidth, cursorPosition.getY()* cellHeight, cellWidth , cellHeight);
 
 
         // Draws gridlines
@@ -147,5 +164,20 @@ public class BoardView extends javafx.scene.canvas.Canvas
         int y = (int) (mouseY / cellHeight);
 
         return new CellPosition(x,y);
+    }
+
+    public void onPatternSelected(PatternEvent event)
+    {
+
+        System.out.println(event.getPatternName());
+        System.out.println(event.getPatternString());
+
+        currentPattern = new Pattern(event.getPatternName(),event.getPatternString());
+        drawingPatternActive = true;
+    }
+    public void onEscPressed()
+    {
+        drawingPatternActive = false;
+        draw();
     }
 }
