@@ -1,6 +1,7 @@
 package MoonBurn.GoL.view.patternSelect;
 
 import MoonBurn.GoL.util.event.EventBus;
+import MoonBurn.GoL.util.event.classes.PatternEvent;
 import javafx.event.Event;
 import javafx.geometry.Insets;
 import javafx.scene.control.CheckBox;
@@ -45,13 +46,19 @@ public class PatternSelectorView extends HBox
         checkBoxes2.getChildren().addAll(spaceshipsCB, specialLifeCB);
 
         patternList = new ListView();
-        patternList.setOnHiding(this::patterListAction);
+        patternList.setOnHiding(this::patternListCollapsed);
         this.getChildren().addAll(checkBoxes1, checkBoxes2, patternList );
     }
 
-    private void patterListAction(Event e)
+    private void patternListCollapsed(Event e)
     {
-        System.out.println(patternList.getValue());
+        if(patternList.getValue() == null)
+        {
+            return;
+        }
+        String patternName =  patternList.getValue().toString();
+        String patternString = patternList.getPatternStringByName(patternName);
+        eventBus.emit(new PatternEvent(patternName, patternString));
     }
 
     private void ClickedStillLifeCB(MouseEvent m)

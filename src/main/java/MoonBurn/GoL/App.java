@@ -6,11 +6,8 @@ import MoonBurn.GoL.model.board.FiniteBoard;
 import MoonBurn.GoL.model.board.IBoard;
 import MoonBurn.GoL.model.enums.ApplicationState;
 import MoonBurn.GoL.model.rules.ConwayRules;
-import MoonBurn.GoL.util.event.classes.ApplicationStateEvent;
+import MoonBurn.GoL.util.event.classes.*;
 import MoonBurn.GoL.util.event.EventBus;
-import MoonBurn.GoL.util.event.classes.BoardPressEvent;
-import MoonBurn.GoL.util.event.classes.DrawModeEvent;
-import MoonBurn.GoL.util.event.classes.SimulatorEvent;
 import MoonBurn.GoL.logic.ApplicationStateManager;
 import MoonBurn.GoL.logic.Simulator;
 import MoonBurn.GoL.view.BoardView;
@@ -46,6 +43,7 @@ public class App extends Application
         Editor editor = new Editor(boardVM, applicationStateManager);
         eventBus.addMapping(DrawModeEvent.class, editor::handleDrawModeEvent);
         eventBus.addMapping(BoardPressEvent.class, editor::onBoardPressed);
+        eventBus.addMapping(PatternEvent.class, editor::onPatternSelected);
 
         BoardView boardView = new BoardView(800,400, boardVM, eventBus);
         eventBus.addMapping(DrawModeEvent.class, boardView::onDrawModeEvent);

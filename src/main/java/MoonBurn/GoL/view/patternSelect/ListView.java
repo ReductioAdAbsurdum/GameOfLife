@@ -13,11 +13,15 @@ public class ListView extends ComboBox
 
     public ListView()
     {
-       stillPatterns = new HashMap<>();
-       populateStillPatternList();
+        this.setMinSize(120,25);
+        this.setMaxSize(120,25);
 
-       oscillatorPatterns = new HashMap<>();
-       populateOscillatorPatternList();
+        stillPatterns = new HashMap<>();
+        populateStillPatternList();
+
+        oscillatorPatterns = new HashMap<>();
+        populateOscillatorPatternList();
+
     }
 
     public void addStillNamesToView()
@@ -103,5 +107,19 @@ public class ListView extends ComboBox
         {
             e.printStackTrace();
         }
+    }
+
+    public String getPatternStringByName(String name)
+    {
+        if(stillPatterns.containsKey(name))
+        {
+            return stillPatterns.get(name);
+        }
+        if(oscillatorPatterns.containsKey(name))
+        {
+            return oscillatorPatterns.get(name);
+        }
+        System.out.println("Key not found");
+        return null;
     }
 }

@@ -5,6 +5,7 @@ import MoonBurn.GoL.model.enums.CellState;
 import MoonBurn.GoL.util.Property;
 import MoonBurn.GoL.util.event.classes.BoardPressEvent;
 import MoonBurn.GoL.util.event.classes.DrawModeEvent;
+import MoonBurn.GoL.util.event.classes.PatternEvent;
 import MoonBurn.GoL.viewmodel.BoardVM;
 
 public class Editor
@@ -53,5 +54,16 @@ public class Editor
 
         boardVM.getWrappedBoardProp().getValue().getWrappedValue().setState(x,y,drawModeProp.getValue());
         boardVM.getWrappedBoardProp().notifyOfExternalChange();
+    }
+
+    public void onPatternSelected(PatternEvent event)
+    {
+        if(isDrawingEnabled == false)
+        {
+            return;
+        }
+
+        System.out.println(event.getPatternName());
+        System.out.println(event.getPatternString());
     }
 }
