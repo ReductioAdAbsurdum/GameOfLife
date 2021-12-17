@@ -17,7 +17,7 @@ public class Simulator
         this.boardVM = boardVM;
         this.ruleApplier = ruleApplier;
 
-        timeline = new Timeline(new KeyFrame(Duration.millis(50), actionEvent -> doStep()));
+        timeline = new Timeline(new KeyFrame(Duration.millis(25), actionEvent -> doStep()));
         timeline.setCycleCount(Timeline.INDEFINITE);
     }
 
