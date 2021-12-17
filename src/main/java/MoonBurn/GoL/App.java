@@ -1,6 +1,7 @@
 package MoonBurn.GoL;
 
 import MoonBurn.GoL.logic.RuleApplier;
+import MoonBurn.GoL.model.rules.ConwayRulesWarpLogic;
 import MoonBurn.GoL.util.Wrapper;
 import MoonBurn.GoL.model.board.FiniteBoard;
 import MoonBurn.GoL.model.board.IBoard;
@@ -33,7 +34,7 @@ public class App extends Application
         Wrapper<IBoard> wrappedBoard = new Wrapper<>(board);
         BoardVM boardVM = new BoardVM(wrappedBoard);
 
-        RuleApplier ruleApplier =new RuleApplier(wrappedBoard,new ConwayRules());
+        RuleApplier ruleApplier =new RuleApplier(wrappedBoard,new ConwayRulesWarpLogic());
         Simulator simulator = new Simulator(boardVM, ruleApplier);
         eventBus.addMapping(SimulatorEvent.class, simulator::handleSimulatorEvent);
 

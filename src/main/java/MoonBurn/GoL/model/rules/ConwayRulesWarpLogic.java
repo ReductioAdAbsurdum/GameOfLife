@@ -24,33 +24,47 @@ public class ConwayRulesWarpLogic implements IRules
 
     private int countAliveNeighbours(int x, int y, IBoard board)
     {
-        int count = 0;
-        int radius = 1;
+        int biggestX = board.getWidth() - 1;
+        int biggestY = board.getHeight() - 1;
+        int lookPlaceX;
+        int lookPlaceY;
 
-        for (int i = -radius; i <= radius; i++)
+        int count = 0;
+
+        for (int i = -1; i <= 1; i++)
         {
-            for (int j = -radius; j <= radius; j++)
+            for (int j = -1; j <= 1; j++)
             {
                 if (i == 0 && j == 0)
                 {
                     continue;
                 }
-                if(board.getState(x+i,y+j) == CellState.ALIVE)
+                lookPlaceX = x+i;
+                lookPlaceY = y+j;
+
+                if(lookPlaceX < 0)
+                {
+                    lookPlaceX = biggestX;
+                }
+                if(lookPlaceX > biggestX)
+                {
+                    lookPlaceX = 0;
+                }
+                if(lookPlaceY < 0)
+                {
+                    lookPlaceY = biggestY;
+                }
+                if(lookPlaceY > biggestY)
+                {
+                    lookPlaceY = 0;
+                }
+
+                if(board.getState(lookPlaceX,lookPlaceY) == CellState.ALIVE)
                 {
                     count++;
                 }
             }
         }
-
-        // Warp logic
-        if(x==0)
-        {
-            if(board.getState(x,y) == CellState.ALIVE)
-            {
-                count++;
-            }
-        }
-
         return count;
     }
 }
