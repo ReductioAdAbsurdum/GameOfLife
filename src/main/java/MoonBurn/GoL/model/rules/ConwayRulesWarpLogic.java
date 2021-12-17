@@ -3,7 +3,7 @@ package MoonBurn.GoL.model.rules;
 import MoonBurn.GoL.model.board.IBoard;
 import MoonBurn.GoL.model.enums.CellState;
 
-public class ConwayRules implements IRules
+public class ConwayRulesWarpLogic implements IRules
 {
     @Override
     public CellState getNextState(int x, int y, IBoard board)
@@ -42,6 +42,14 @@ public class ConwayRules implements IRules
             }
         }
 
+        // Warp logic
+        if(x==0)
+        {
+            if(board.getState(x,y) == CellState.ALIVE)
+            {
+                count++;
+            }
+        }
 
         return count;
     }

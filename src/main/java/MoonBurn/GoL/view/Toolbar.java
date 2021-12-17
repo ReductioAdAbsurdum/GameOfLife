@@ -5,6 +5,7 @@ import MoonBurn.GoL.model.enums.CellState;
 import MoonBurn.GoL.util.event.EventBus;
 import MoonBurn.GoL.util.event.classes.ApplicationStateEvent;
 import MoonBurn.GoL.util.event.classes.DrawModeEvent;
+import MoonBurn.GoL.util.event.classes.PatternClosedEvent;
 import MoonBurn.GoL.util.event.classes.SimulatorEvent;
 import MoonBurn.GoL.view.patternSelect.PatternSelectorView;
 import javafx.event.ActionEvent;
@@ -68,6 +69,7 @@ public class Toolbar extends ToolBar
         eventBus.emit(new SimulatorEvent(SimulatorEvent.Type.CLEAR));
         eventBus.emit(new ApplicationStateEvent(ApplicationState.EDITING));
         eventBus.emit(new DrawModeEvent(CellState.ALIVE));
+        eventBus.emit(new PatternClosedEvent());
     }
 
     /**
@@ -86,6 +88,7 @@ public class Toolbar extends ToolBar
         eventBus.emit(new SimulatorEvent(SimulatorEvent.Type.STOP));
         eventBus.emit(new ApplicationStateEvent(ApplicationState.EDITING));
         eventBus.emit(new DrawModeEvent(CellState.DEAD));
+        eventBus.emit(new PatternClosedEvent());
     }
 
     /**
@@ -96,6 +99,7 @@ public class Toolbar extends ToolBar
         eventBus.emit(new SimulatorEvent(SimulatorEvent.Type.STOP));
         eventBus.emit(new ApplicationStateEvent(ApplicationState.EDITING));
         eventBus.emit(new DrawModeEvent(CellState.ALIVE));
+        eventBus.emit(new PatternClosedEvent());
     }
 
 }

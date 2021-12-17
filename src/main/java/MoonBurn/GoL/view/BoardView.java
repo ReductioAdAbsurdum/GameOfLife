@@ -5,10 +5,8 @@ import MoonBurn.GoL.model.board.Pattern;
 import MoonBurn.GoL.util.Wrapper;
 import MoonBurn.GoL.model.enums.CellState;
 import MoonBurn.GoL.util.event.EventBus;
-import MoonBurn.GoL.util.event.classes.BoardMultiplePressesEvent;
-import MoonBurn.GoL.util.event.classes.BoardPressEvent;
-import MoonBurn.GoL.util.event.classes.DrawModeEvent;
-import MoonBurn.GoL.util.event.classes.PatternEvent;
+import MoonBurn.GoL.util.event.IEvent;
+import MoonBurn.GoL.util.event.classes.*;
 import MoonBurn.GoL.viewmodel.BoardVM;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseEvent;
@@ -226,6 +224,11 @@ public class BoardView extends javafx.scene.canvas.Canvas
         drawingPatternActive = true;
     }
     public void onEscPressed()
+    {
+        drawingPatternActive = false;
+        draw();
+    }
+    public void onPatternClosedEvent(PatternClosedEvent event)
     {
         drawingPatternActive = false;
         draw();

@@ -29,7 +29,7 @@ public class App extends Application
 
         EventBus eventBus = new EventBus();
 
-        IBoard board = new FiniteBoard(1600,800);
+        IBoard board = new FiniteBoard(200,100);
         Wrapper<IBoard> wrappedBoard = new Wrapper<>(board);
         BoardVM boardVM = new BoardVM(wrappedBoard);
 
@@ -48,6 +48,7 @@ public class App extends Application
         BoardView boardView = new BoardView(1600,800, boardVM, eventBus);
         eventBus.addMapping(PatternEvent.class, boardView::onPatternSelected);
         eventBus.addMapping(DrawModeEvent.class, boardView::onDrawModeEvent);
+        eventBus.addMapping(PatternClosedEvent.class, boardView::onPatternClosedEvent);
 
         Toolbar toolbar = new Toolbar(eventBus);
         Shell shell = new Shell(eventBus, boardView, toolbar);
