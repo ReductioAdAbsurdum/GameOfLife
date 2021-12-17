@@ -29,7 +29,7 @@ public class App extends Application
 
         EventBus eventBus = new EventBus();
 
-        IBoard board = new FiniteBoard(40,20);
+        IBoard board = new FiniteBoard(1600,800);
         Wrapper<IBoard> wrappedBoard = new Wrapper<>(board);
         BoardVM boardVM = new BoardVM(wrappedBoard);
 
@@ -45,7 +45,7 @@ public class App extends Application
         eventBus.addMapping(BoardPressEvent.class, editor::onBoardPressed);
         eventBus.addMapping(BoardMultiplePressesEvent.class, editor::onBoardMultiplePressed);
 
-        BoardView boardView = new BoardView(800,400, boardVM, eventBus);
+        BoardView boardView = new BoardView(1600,800, boardVM, eventBus);
         eventBus.addMapping(PatternEvent.class, boardView::onPatternSelected);
         eventBus.addMapping(DrawModeEvent.class, boardView::onDrawModeEvent);
 

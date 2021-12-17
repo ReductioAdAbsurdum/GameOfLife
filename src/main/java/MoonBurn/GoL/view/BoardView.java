@@ -24,6 +24,7 @@ public class BoardView extends javafx.scene.canvas.Canvas
     private final Color aliveCellColor = new Color(0.5,0.5,0.5,1.0);
     private final Color highlightedCellDrawColor = new Color(0.4,0.4, 0.55,1);
     private final Color highlightedCellEraseColor = new Color(0.55,0.4, 0.4,1);
+    private final Color patternBorderColor = new Color(0.8,0.1, 0.1,1);
 
     private double cellHeight;
     private double cellWidth;
@@ -167,6 +168,12 @@ public class BoardView extends javafx.scene.canvas.Canvas
         }
 
 
+        // Don't draw gridlines if cells are too small
+        if(Math.min(cellHeight,cellWidth) < 5)
+        {
+            return;
+        }
+
         // Draws gridlines
         graphCont.setFill(gridlinesColor);
         graphCont.setLineWidth(Math.min(cellHeight,cellWidth)/25);
@@ -177,6 +184,23 @@ public class BoardView extends javafx.scene.canvas.Canvas
         for (int y = 0; y <= boardVM.getWrappedBoardProp().getValue().getWrappedValue().getHeight(); y++)
         {
             graphCont.strokeLine(0,y*cellHeight, getWidth(),y*cellHeight);
+        }
+
+        // Draw pattern lines
+        if(drawingPatternActive)
+        {
+            graphCont.setFill(patternBorderColor);
+            graphCont.setLineWidth(Math.min(cellHeight,cellWidth)/15);
+            double startX = cursorPosition.getX() * cellWidth;
+            double startY = cursorPosition.getY() * cellHeight;
+            double endX = (cursorPosition.getX() + currentPattern.getWidth()) * cellWidth;
+            double endY = (cursorPosition.getY() + currentPattern.getHeight()) * cellHeight;
+
+            graphCont.strokeLine(startX, startY, endX, startY); // top _
+            graphCont.strokeLine(startX, startY, startX, endY); // left |
+            graphCont.strokeLine(startX, endY, endX, endY); // bottom _
+            graphCont.strokeLine(endX, startY, endX, endY); // right |
+
         }
     }
 
@@ -198,10 +222,6 @@ public class BoardView extends javafx.scene.canvas.Canvas
 
     public void onPatternSelected(PatternEvent event)
     {
-
-        System.out.println(event.getPatternName());
-        System.out.println(event.getPatternString());
-
         currentPattern = new Pattern(event.getPatternName(),event.getPatternString());
         drawingPatternActive = true;
     }
