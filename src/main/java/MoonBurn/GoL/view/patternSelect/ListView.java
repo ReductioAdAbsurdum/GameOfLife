@@ -8,25 +8,37 @@ import java.util.Scanner;
 
 public class ListView extends ComboBox
 {
-    private HashMap<String ,String> stillPatterns;
-    private HashMap<String ,String> oscillatorPatterns;
+    private final String stillLifeLocation = "C:\\Users\\Monster\\Desktop\\GameOfLife\\src\\main\\resources\\Still";
+    private final String oscillatorLocation = "C:\\Users\\Monster\\Desktop\\GameOfLife\\src\\main\\resources\\Oscillator";
+    private final String spaceshipLocation = "C:\\Users\\Monster\\Desktop\\GameOfLife\\src\\main\\resources\\Spaceship";
+    private final String specialLifeLocation = "C:\\Users\\Monster\\Desktop\\GameOfLife\\src\\main\\resources\\Special";
+
+    private HashMap<String ,String> stillLifeMap;
+    private HashMap<String ,String> oscillatorMap;
+    private HashMap<String ,String> spaceshipMap;
+    private HashMap<String ,String> specialLifeMap;
 
     public ListView()
     {
-        this.setMinSize(120,25);
-        this.setMaxSize(120,25);
+        this.setMinSize(160,25);
+        this.setMaxSize(160,25);
 
-        stillPatterns = new HashMap<>();
-        populateStillPatternList();
+        stillLifeMap = new HashMap<>();
+        populatePatternMap(stillLifeMap, stillLifeLocation);
 
-        oscillatorPatterns = new HashMap<>();
-        populateOscillatorPatternList();
+        oscillatorMap = new HashMap<>();
+        populatePatternMap(oscillatorMap, oscillatorLocation);
 
+        spaceshipMap = new HashMap<>();
+        populatePatternMap(spaceshipMap, spaceshipLocation);
+
+        specialLifeMap = new HashMap<>();
+        populatePatternMap(specialLifeMap, specialLifeLocation);
     }
 
     public void addStillNamesToView()
     {
-        for (String name : stillPatterns.keySet())
+        for (String name : stillLifeMap.keySet())
         {
             this.getItems().add(name);
         }
@@ -34,7 +46,7 @@ public class ListView extends ComboBox
     }
     public void removeStillNamesFromView()
     {
-        for (String name : stillPatterns.keySet())
+        for (String name : stillLifeMap.keySet())
         {
             this.getItems().remove(name);
         }
@@ -42,7 +54,7 @@ public class ListView extends ComboBox
 
     public void addOscillatorNamesToView()
     {
-        for (String name : oscillatorPatterns.keySet())
+        for (String name : oscillatorMap.keySet())
         {
             this.getItems().add(name);
         }
@@ -50,51 +62,65 @@ public class ListView extends ComboBox
     }
     public void removeOscillatorNamesFromView()
     {
-        for (String name : oscillatorPatterns.keySet())
+        for (String name : oscillatorMap.keySet())
         {
             this.getItems().remove(name);
         }
     }
 
-    private void populateStillPatternList()
+    public void addSpaceshipNamesToView()
     {
-        try {
-            File file = new File("C:\\Users\\Monster\\Desktop\\GameOfLife\\src\\main\\resources\\Still");
-
-            Scanner input = new Scanner(file);
-
-            while (input.hasNextLine())
-            {
-                String name = input.nextLine();
-                String string = input.nextLine();
-
-                stillPatterns.put(name, string);
-                if(input.hasNextLine() == false)
-                {
-                    return;
-                }
-                input.nextLine(); // Skip line
-            }
-            input.close();
-
-        } catch (Exception e)
+        for (String name : spaceshipMap.keySet())
         {
-            e.printStackTrace();
+            this.getItems().add(name);
+        }
+
+    }
+    public void removeSpaceshipNamesFromView()
+    {
+        for (String name : spaceshipMap.keySet())
+        {
+            this.getItems().remove(name);
         }
     }
-    private void populateOscillatorPatternList()
+
+    public void addSpecialLifeNamesToView()
+    {
+        for (String name : specialLifeMap.keySet())
+        {
+            this.getItems().add(name);
+        }
+
+    }
+    public void removeSpecialLifeNamesFromView()
+    {
+        for (String name : specialLifeMap.keySet())
+        {
+            this.getItems().remove(name);
+        }
+    }
+
+    private void populatePatternMap(HashMap<String,String> map, String patternLocation)
     {
         try {
-            File file = new File("C:\\Users\\Monster\\Desktop\\GameOfLife\\src\\main\\resources\\Oscillator");
+            File file = new File(patternLocation);
 
             Scanner input = new Scanner(file);
 
             while (input.hasNextLine())
             {
                 String name = input.nextLine();
+                if(name == "")
+                {
+                    break;
+                }
                 String string = input.nextLine();
+                if(string == "")
+                {
+                    break;
+                }
 
-                oscillatorPatterns.put(name, string);
+                map.put(name, string);
                 if(input.hasNextLine() == false)
                 {
                     return;
@@ -111,13 +137,21 @@ public class ListView extends ComboBox
 
     public String getPatternStringByName(String name)
     {
-        if(stillPatterns.containsKey(name))
+        if(stillLifeMap.containsKey(name))
         {
-            return stillPatterns.get(name);
+            return stillLifeMap.get(name);
         }
-        if(oscillatorPatterns.containsKey(name))
+        if(oscillatorMap.containsKey(name))
         {
-            return oscillatorPatterns.get(name);
+            return oscillatorMap.get(name);
+        }
+        if(spaceshipMap.containsKey(name))
+        {
+            return spaceshipMap.get(name);
+        }
+        if(specialLifeMap.containsKey(name))
+        {
+            return specialLifeMap.get(name);
         }
         System.out.println("Key not found");
         return null;

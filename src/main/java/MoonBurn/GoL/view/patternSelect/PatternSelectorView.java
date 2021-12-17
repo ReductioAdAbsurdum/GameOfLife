@@ -75,12 +75,10 @@ public class PatternSelectorView extends HBox
         if(stillLifeCB.isSelected())
         {
             patternList.addStillNamesToView();
-            System.out.println("Still life add to the View");
         }
         else
         {
             patternList.removeStillNamesFromView();
-            System.out.println("Still life remove from the View");
         }
 
     }
@@ -89,22 +87,33 @@ public class PatternSelectorView extends HBox
         if(oscillatorsCB.isSelected())
         {
             patternList.addOscillatorNamesToView();
-            System.out.println("Oscillators add to the View");
         }
         else
         {
             patternList.removeOscillatorNamesFromView();
-            System.out.println("Oscillators remove from the View");
         }
     }
     private void ClickedSpaceshipCB(MouseEvent m)
     {
-        System.out.println("Spaceship");
+        if(spaceshipsCB.isSelected())
+        {
+            patternList.addSpaceshipNamesToView();
+        }
+        else
+        {
+            patternList.removeSpaceshipNamesFromView();
+        }
     }
-
     private void ClickedSpecialLifeCB(MouseEvent m)
     {
-        System.out.println("Special");
+        if(specialLifeCB.isSelected())
+        {
+            patternList.addSpecialLifeNamesToView();
+        }
+        else
+        {
+            patternList.removeSpecialLifeNamesFromView();
+        }
     }
 
 }
