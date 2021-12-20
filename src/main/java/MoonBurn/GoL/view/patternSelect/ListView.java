@@ -8,10 +8,10 @@ import java.util.Scanner;
 
 public class ListView extends ComboBox
 {
-    private final String stillLifeLocation = "C:\\Users\\Monster\\Desktop\\GameOfLife\\src\\main\\resources\\Still";
-    private final String oscillatorLocation = "C:\\Users\\Monster\\Desktop\\GameOfLife\\src\\main\\resources\\Oscillator";
-    private final String spaceshipLocation = "C:\\Users\\Monster\\Desktop\\GameOfLife\\src\\main\\resources\\Spaceship";
-    private final String specialLifeLocation = "C:\\Users\\Monster\\Desktop\\GameOfLife\\src\\main\\resources\\Special";
+    private final String stillLifeLocation = "src/main/resources/Still";
+    private final String oscillatorLocation = "src/main/resources/Oscillator";
+    private final String spaceshipLocation = "src/main/resources/Spaceship";
+    private final String specialLifeLocation = "src/main/resources/Special";
 
     private HashMap<String ,String> stillLifeMap;
     private HashMap<String ,String> oscillatorMap;
