@@ -1,7 +1,7 @@
 package MoonBurn.GoL.util.event;
 
 import java.util.*;
-
+//test
 public class EventBus
 {
     private Map<Class, List<IEventListener>> map = new HashMap<>();
